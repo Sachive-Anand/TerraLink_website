@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
 const Home = () => {
   return (
@@ -15,10 +16,10 @@ const Home = () => {
         </div>
         <div className="w-1/2 flex justify-end space-x-4">
           <button className="bg-[#054a91] bg-opacity-75 text-white px-4 py-2 rounded-2xl hover:bg-[#054a91] transition duration-300">
-            Buyer's Portal
+           <Link to="/BuyerLogin"> Buyer's Portal</Link>
           </button>
           <button className="bg-[#054a91] bg-opacity-75 text-white px-4 py-2 rounded-2xl hover:bg-[#054a91] transition duration-300">
-            Seller's Portal
+           <Link to="/SellerLogin"> Seller's Portal</Link>
           </button>
         </div>
       </div>
