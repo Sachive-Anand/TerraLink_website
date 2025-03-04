@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import backgroundVideo from "../assets/video.mp4";
 
-const SignInSignUp: React.FC = () => {
+const SellerLogin: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
-
-<<<<<<< HEAD
-=======
-const SellerLogin:React.FC = () => {
->>>>>>> c9c283f75678392407bdcf0ee1fc383895ea3025
   return (
     <div className="relative flex items-center justify-center min-h-screen ">
       {/* Background Video */}
@@ -22,7 +17,7 @@ const SellerLogin:React.FC = () => {
         Your browser does not support the video tag.
       </video>
       
-      <div className="relative w-full max-w-3xl flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="relative w-full max-w-3xl flex flex-col md:flex-row bg-white shadow-lg rounded-2xl overflow-hidden">
         {/* Left Side (Styled for both modes) */}
         <div
           className={`w-full md:w-1/2 p-6 flex flex-col justify-center transition-all ${
@@ -102,4 +97,4 @@ const SellerLogin:React.FC = () => {
   );
 };
 
-export default SignInSignUp;
+export default SellerLogin;
