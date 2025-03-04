@@ -4,6 +4,10 @@ import backgroundVideo from "../assets/video.mp4";
 const SignInSignUp: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
+<<<<<<< HEAD
+=======
+const SellerLogin:React.FC = () => {
+>>>>>>> c9c283f75678392407bdcf0ee1fc383895ea3025
   return (
     <div className="relative flex items-center justify-center min-h-screen ">
       {/* Background Video */}
