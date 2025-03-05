@@ -9,6 +9,7 @@ import Favourites from './Pages/Favourites';
 import SellerLanding from './Pages/SellerLanding';
 import RecentApproaches from './Pages/RecentApproaches';
 import TerraLogs from './Pages/TerraLogs';
+import UploadProperty from './Pages/UploadProperty';
 function App() {
 
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/sellerlanding" element={<SellerLanding/>}/>
         <Route path="/recentapproaches" element={<RecentApproaches/>}/>
         <Route path="/terralogs" element={<TerraLogs/>}/>
+        <Route path="/upload" element={<UploadProperty/>}/>
 
       </Routes>
       </BrowserRouter>

@@ -37,9 +37,11 @@ const SellerLandingPage: React.FC = () => {
         <a href="#about" className="text-gray-700 hover:text-primary">About</a>
         <a href="#faq" className="text-gray-700 hover:text-primary">FAQ</a>
         <a href="#contact" className="text-gray-700 hover:text-primary">Contact</a>
-        <button className="bg-blue-700 text-white px-4 py-2 rounded-xl hover:bg-blue-900 transition">
+        <Link to="/upload">
+        <button className="w-full text-left px-3 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition">
           List Your Property
         </button>
+      </Link>
         {/* Add the new buttons here */}
         <Link to="/recentapproaches" className="bg-blue-700 text-white px-4 py-2 rounded-xl hover:bg-blue-900 transition">
           Recent Approaches
@@ -74,9 +76,11 @@ const SellerLandingPage: React.FC = () => {
       <a href="#about" className="block px-3 py-2 text-gray-700 hover:text-primary">About</a>
       <a href="#faq" className="block px-3 py-2 text-gray-700 hover:text-primary">FAQ</a>
       <a href="#contact" className="block px-3 py-2 text-gray-700 hover:text-primary">Contact</a>
-      <button className="w-full text-left px-3 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition">
-        List Your Property
-      </button>
+      <Link to="/upload">
+        <button className="w-full text-left px-3 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition">
+          List Your Property
+        </button>
+      </Link>
       {/* Add the new buttons here for mobile */}
       <button className="w-full text-left px-3 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition">
         Recent Approaches
@@ -102,13 +106,13 @@ const SellerLandingPage: React.FC = () => {
           <p className="text-xl text-gray-600 mb-8">
             Connect directly with buyers and get the best value for your property
           </p>
-          <motion.button
+          <Link to="/upload"><motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="bg-blue-700 rounded-xl text-white px-8 py-4 text-lg font-semibold hover:bg-blue-900 transition"
           >
             Start Listing Today
-          </motion.button>
+          </motion.button></Link>
         </div>
       </motion.section>
 
