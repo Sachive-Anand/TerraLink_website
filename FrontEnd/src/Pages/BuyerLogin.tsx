@@ -1,8 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import backgroundVideo from "../assets/video.mp4";
 
-const SellerLogin: React.FC = () => {
+const BuyerLogin: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent default form submission
+    navigate("/buyerlanding"); // Navigate to the buyer landing page
+  };
 
   return (
     <div className="relative flex items-center justify-center min-h-screen">
@@ -57,17 +64,29 @@ const SellerLogin: React.FC = () => {
 
           {/* Google Sign-In */}
           <div className="flex justify-center mb-4">
-          {isSignUp ? (<button className="flex items-center px-4 py-2 border rounded-md shadow-md hover:bg-gray-100 transition duration-300">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" className="w-5 h-5 mr-2" />
-              Sign Up with Google
-            </button>):(<button className="flex items-center px-4 py-2 border rounded-md shadow-md hover:bg-gray-100 transition duration-300">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" className="w-5 h-5 mr-2" />
-              Sign In With Google
-            </button>)}
+            {isSignUp ? (
+              <button className="flex items-center px-4 py-2 border rounded-md shadow-md hover:bg-gray-100 transition duration-300">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                  alt="Google Logo"
+                  className="w-5 h-5 mr-2"
+                />
+                Sign Up with Google
+              </button>
+            ) : (
+              <button className="flex items-center px-4 py-2 border rounded-md shadow-md hover:bg-gray-100 transition duration-300">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                  alt="Google Logo"
+                  className="w-5 h-5 mr-2"
+                />
+                Sign In With Google
+              </button>
+            )}
           </div>
 
           {/* Form */}
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {isSignUp && (
               <input
                 type="text"
@@ -105,4 +124,4 @@ const SellerLogin: React.FC = () => {
   );
 };
 
-export default SellerLogin;
+export default BuyerLogin;
