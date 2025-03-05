@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FaHome, FaPhone, FaQuestionCircle } from 'react-icons/fa';
 import { Disclosure } from '@headlessui/react';
 import React from "react";
+import { FaHeart, FaSignOutAlt } from 'react-icons/fa';
 import {Link} from "react-router-dom";
 
 const SellerLandingPage: React.FC = () => {
@@ -38,17 +39,22 @@ const SellerLandingPage: React.FC = () => {
         <a href="#faq" className="text-gray-700 hover:text-primary">FAQ</a>
         <a href="#contact" className="text-gray-700 hover:text-primary">Contact</a>
         <Link to="/upload">
-        <button className="w-full text-left px-3 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition">
+        <button className="w-full text-left px-3 py-2 bg-[#054a91] text-white rounded-xl hover:bg-blue-900 transition">
           List Your Property
         </button>
       </Link>
         {/* Add the new buttons here */}
-        <Link to="/recentapproaches" className="bg-blue-700 text-white px-4 py-2 rounded-xl hover:bg-blue-900 transition">
+        <Link to="/recentapproaches"  className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300">
           Recent Approaches
         </Link>
-        <Link to="/terralogs" className="bg-blue-700 text-white px-4 py-2 rounded-xl hover:bg-blue-900 transition">
+        <Link to="/terralogs"  className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300">
           Terralogs
         </Link>
+         <Link to="/home"
+                    className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300">
+                    <FaSignOutAlt className="inline-block mr-1" />
+                    Logout
+                  </Link>
       </div>
       <div className="md:hidden flex items-center">
         <button

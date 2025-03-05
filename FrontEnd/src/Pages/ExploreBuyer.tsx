@@ -192,7 +192,7 @@ const ExploreBuyer: React.FC = () => {
             <FaHeart className="text-lg" />
             <span>Favourites</span>
           </Link>
-          <Link to="/logout">
+          <Link to="/home">
             <button className="flex items-center space-x-2 px-6 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1">
               <FaSignOutAlt className="text-lg" />
               <span>Log Out</span>
