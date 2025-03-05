@@ -167,10 +167,10 @@ const Explore: React.FC = () => {
           <img src="https://placehold.co/100x50" alt="Logo" className="h-10" />
         </div>
         <div className="flex items-center space-x-3">
-          <Link to="/logout">
+          <Link to="/home">
             <button className="flex items-center space-x-2 px-6 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1">
               <FaSignOutAlt className="text-lg" />
-              <span>Log Out</span>
+              <span>Home</span>
             </button>
           </Link>
         </div>
