@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import backgroundVideo from "../assets/video.mp4";
-
+import { useNavigate } from "react-router-dom";
 const SellerLogin: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const navigate = useNavigate();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent default form submission
+    navigate("/sellerlanding"); // Navigate to the buyer landing page
+  };
 
   return (
     <div className="relative flex items-center justify-center min-h-screen">
@@ -67,7 +72,7 @@ const SellerLogin: React.FC = () => {
           </div>
 
           {/* Form */}
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {isSignUp && (
               <input
                 type="text"
