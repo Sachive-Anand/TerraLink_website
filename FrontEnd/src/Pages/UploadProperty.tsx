@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaUpload, FaImage, FaMapMarkerAlt, FaDollarSign, FaHome, FaUser, FaAlignLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+
 
 const UploadProperty: React.FC = () => {
     const [formData, setFormData] = useState({

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaHeart, FaSignOutAlt, FaFilter, FaTimes } from 'react-icons/fa';
+import {FaSignOutAlt, FaFilter, FaTimes } from 'react-icons/fa';
 
 const Explore: React.FC = () => {
   // Property interface
@@ -167,10 +167,6 @@ const Explore: React.FC = () => {
           <img src="https://placehold.co/100x50" alt="Logo" className="h-10" />
         </div>
         <div className="flex items-center space-x-3">
-          <Link to="/favourites" className="flex items-center space-x-2 px-5 py-2.5 border border-[#054a91] text-[#054a91] font-semibold rounded-full hover:bg-[#054a91] hover:text-white transition duration-300 transform hover:-translate-y-1 hover:scale-105">
-            <FaHeart className="text-lg" />
-            <span>Favourites</span>
-          </Link>
           <Link to="/logout">
             <button className="flex items-center space-x-2 px-6 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1">
               <FaSignOutAlt className="text-lg" />

@@ -10,6 +10,7 @@ import SellerLanding from './Pages/SellerLanding';
 import RecentApproaches from './Pages/RecentApproaches';
 import TerraLogs from './Pages/TerraLogs';
 import UploadProperty from './Pages/UploadProperty';
+import Property from './Pages/Property';
 function App() {
 
 
@@ -29,7 +30,7 @@ function App() {
         <Route path="/recentapproaches" element={<RecentApproaches/>}/>
         <Route path="/terralogs" element={<TerraLogs/>}/>
         <Route path="/upload" element={<UploadProperty/>}/>
-
+        <Route path="/property" element={<Property/>}/>
       </Routes>
       </BrowserRouter>
     </div>
