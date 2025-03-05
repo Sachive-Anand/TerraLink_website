@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaHeart, FaTimes } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const Favourites: React.FC = () => {
