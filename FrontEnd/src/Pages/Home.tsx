@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaCompass } from "react-icons/fa";
 
-const Home = () => {
+const Home:React.FC = () => {
   return (
     <div className="w-full min-h-screen bg-[#E4E4E4]">
       {/* Navigation Bar */}
@@ -15,21 +15,21 @@ const Home = () => {
         {/* Buttons */}
         <div className="flex items-center space-x-3">
           <Link
-            to="/Explore"
+            to="/explore"
             className="flex items-center space-x-2 px-5 py-2.5 mr-4 border border-[#054a91] text-[#054a91] font-semibold rounded-full hover:bg-[#054a91] hover:text-white transition duration-300 transform hover:-translate-y-1 hover:scale-105"
           >
             <FaCompass className="text-lg" />
             <span>Explore</span>
           </Link>
 
-          <Link to="/BuyerLogin">
+          <Link to="/buyerLogin">
             <button className="flex items-center space-x-2 px-6 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1">
               <FaCompass className="text-lg" />
               <span>Buyer's Portal</span>
             </button>
           </Link>
 
-          <Link to="/SellerLogin">
+          <Link to="/sellerLogin">
             <button className="flex items-center space-x-2 px-6 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1">
               <FaCompass className="text-lg" />
               <span>Seller's Portal</span>
