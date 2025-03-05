@@ -1,131 +1,108 @@
 import React, { useState } from "react";
+import backgroundVideo from "../assets/video.mp4";
 
-const BuyerLogin: React.FC = () => {
-  const [isSignIn, setIsSignIn] = useState(true);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const toggleForm = () => {
-    setIsSignIn(!isSignIn);
-  };
-
-  const handleGoogleLogin = () => {
-    alert("Google login will be implemented later.");
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isSignIn) {
-      alert(`Signing in with Email: ${email}, Password: ${password}`);
-    } else {
-      alert(`Signing up with Name: ${name}, Email: ${email}, Password: ${password}`);
-    }
-  };
+const SellerLogin: React.FC = () => {
+  const [isSignUp, setIsSignUp] = useState(false);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#E4E4E4] p-4">
-      <div className="flex flex-col md:flex-row bg-[#054a91] rounded-3xl shadow-2xl overflow-hidden w-full max-w-4xl">
-        {/* Left Side: Description */}
-        <div className="flex-1 p-10 text-white">
-          {isSignIn ? (
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Welcome Back!</h2>
-              <p className="mb-6 text-lg">
-                Sign in to access your seller dashboard and manage your products, orders, and
-                customers.
-              </p>
-              <button
-                onClick={toggleForm}
-                className="mt-6 bg-white text-[#054a91] py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 font-semibold"
-              >
-                Don't have an account? Sign Up
-              </button>
-            </div>
-          ) : (
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Create an Account</h2>
-              <p className="mb-6 text-lg">
-                Sign up to start selling your products and reach millions of customers worldwide.
-              </p>
-              <button
-                onClick={toggleForm}
-                className="mt-6 bg-white text-[#054a91] py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 font-semibold"
-              >
-                Already have an account? Sign In
-              </button>
-            </div>
-          )}
+    <div className="relative flex items-center justify-center min-h-screen">
+      {/* Background Video */}
+      <video
+        className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+        autoPlay
+        loop
+        muted
+        playsInline
+      >
+        <source src={backgroundVideo} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      {/* Form Container */}
+      <div className="relative w-full max-w-3xl flex flex-col md:flex-row bg-white shadow-lg rounded-2xl overflow-hidden">
+        {/* Left Side (Info Box) */}
+        <div
+          className={`w-full md:w-1/2 p-6 flex flex-col justify-center transition-transform duration-500 ease-in-out transform ${
+            isSignUp ? "-translate-x-full md:translate-x-0 order-2" : "order-1"
+          } bg-gradient-to-r from-[#054a91] to-blue-700 text-white text-center`}
+        >
+          <h2 className="text-2xl font-bold mb-4">
+            {isSignUp ? "Join as a Buyer!" : "Welcome Back, Buyer!"}
+          </h2>
+          <p className="mb-6">
+            {isSignUp
+              ? "Create your buyer account to start your journey with us."
+              : "Sign in to manage your buyer dashboard and orders."}
+          </p>
+          <button
+            onClick={() => setIsSignUp(!isSignUp)}
+            className="border border-white px-6 py-2 rounded-full bg-white text-[#054a91] hover:bg-transparent hover:text-white transition duration-300"
+          >
+            {isSignUp ? "Sign In" : "Sign Up"}
+          </button>
         </div>
 
-        {/* Right Side: Form */}
-        <div className="flex-1 bg-white p-10 rounded-l-3xl">
-          <h2 className="text-3xl font-bold mb-8 text-[#054a91] text-center">
-            {isSignIn ? "Sign In" : "Sign Up"}
+        {/* Right Side (Form Box) */}
+        <div
+          className={`w-full md:w-1/2 p-6 transition-transform duration-500 ease-in-out transform ${
+            isSignUp ? "translate-x-full md:translate-x-0 order-1" : "order-2 bg-gray-50"
+          }`}
+        >
+          <h2 className="text-2xl font-bold text-center mb-6">
+            {isSignUp ? "Buyer Registration" : "Buyer Login"}
           </h2>
-          <form onSubmit={handleSubmit}>
-            {!isSignIn && (
-              <div className="mb-6">
-                <label className="block text-sm font-medium mb-2 text-gray-700">Name</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#054a91]"
-                  placeholder="Enter your name"
-                  required
-                />
-              </div>
+          <p className="text-center text-gray-500 text-sm mb-4">
+            {isSignUp ? "Register with your email" : "Login with your credentials"}
+          </p>
+
+          {/* Google Sign-In */}
+          <div className="flex justify-center mb-4">
+          {isSignUp ? (<button className="flex items-center px-4 py-2 border rounded-md shadow-md hover:bg-gray-100 transition duration-300">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" className="w-5 h-5 mr-2" />
+              Sign Up with Google
+            </button>):(<button className="flex items-center px-4 py-2 border rounded-md shadow-md hover:bg-gray-100 transition duration-300">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" className="w-5 h-5 mr-2" />
+              Sign In With Google
+            </button>)}
+          </div>
+
+          {/* Form */}
+          <form className="space-y-4">
+            {isSignUp && (
+              <input
+                type="text"
+                placeholder="Business Name"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-[#054a91]"
+              />
             )}
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2 text-gray-700">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#054a91]"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-            <div className="mb-8">
-              <label className="block text-sm font-medium mb-2 text-gray-700">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#054a91]"
-                placeholder="Enter your password"
-                required
-              />
-            </div>
+            <input
+              type="email"
+              placeholder="Email"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-[#054a91]"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-[#054a91]"
+            />
+
             <button
               type="submit"
-              className="w-full bg-[#054a91] text-white py-3 rounded-lg hover:bg-[#04396c] transition duration-300 font-semibold"
+              className="w-full bg-[#054a91] text-white py-2 rounded-md hover:bg-blue-800 transition duration-300"
             >
-              {isSignIn ? "Sign In" : "Sign Up"}
+              {isSignUp ? "Register" : "Login"}
             </button>
           </form>
-          <div className="flex items-center my-8">
-            <div className="flex-grow border-t border-gray-300"></div>
-            <span className="mx-4 text-gray-500">or</span>
-            <div className="flex-grow border-t border-gray-300"></div>
-          </div>
-          <button
-            onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition duration-300 font-semibold"
-          >
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-              alt="Google Logo"
-              className="w-6 h-6 mr-2"
-            />
-            {isSignIn ? "Sign In" : "Sign Up"} with Google
-          </button>
+
+          {!isSignUp && (
+            <p className="text-sm text-[#054a91] text-center mt-4 cursor-pointer hover:underline">
+              Forgot your password?
+            </p>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default BuyerLogin;
+export default SellerLogin;
