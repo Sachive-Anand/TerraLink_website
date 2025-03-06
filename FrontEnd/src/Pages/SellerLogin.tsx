@@ -62,14 +62,18 @@ const SellerLogin: React.FC = () => {
 
           {/* Google Sign-In */}
           <div className="flex justify-center mb-4">
-          {isSignUp ? (<button className="flex items-center px-4 py-2 border rounded-md shadow-md hover:bg-gray-100 transition duration-300">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" className="w-5 h-5 mr-2" />
-              Sign Up with Google
-            </button>):(<button className="flex items-center px-4 py-2 border rounded-md shadow-md hover:bg-gray-100 transition duration-300">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" className="w-5 h-5 mr-2" />
-              Sign In With Google
-            </button>)}
-          </div>
+  {isSignUp ? (
+    <button className="flex items-center px-4 py-2 border rounded-md shadow-md hover:bg-gray-100 transition duration-300">
+      <img src="https://www.google.com/favicon.ico" alt="Google Logo" className="w-5 h-5 mr-2" />
+      Sign Up with Google
+    </button>
+  ) : (
+    <button className="flex items-center px-4 py-2 border rounded-md shadow-md hover:bg-gray-100 transition duration-300">
+      <img src="https://www.google.com/favicon.ico" alt="Google Logo" className="w-5 h-5 mr-2" />
+      Sign In With Google
+    </button>
+  )}
+</div>
 
           {/* Form */}
           <form className="space-y-4" onSubmit={handleSubmit}>
