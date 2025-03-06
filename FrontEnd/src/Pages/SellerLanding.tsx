@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FaHome, FaPhone, FaQuestionCircle } from 'react-icons/fa';
 import { Disclosure } from '@headlessui/react';
 import React from "react";
+import logo from "../assets/logo2.jpg";
 import { FaHeart, FaSignOutAlt } from 'react-icons/fa';
 import {Link} from "react-router-dom";
 
@@ -30,10 +31,10 @@ const SellerLandingPage: React.FC = () => {
       <nav className="bg-white shadow-lg fixed w-full z-10">
   <div className="max-w-7xl mx-auto px-4">
     <div className="flex justify-between h-16">
-      <div className="flex items-center">
-        <FaHome className="h-8 w-8 text-primary" />
-        <span className="ml-2 text-xl font-bold">TerraLink</span>
-      </div>
+    <div className="ml-auto flex-grow flex md:justify-start">
+  <img src={logo} alt="Logo" className="h-11 mt-3" />
+</div>
+
       <div className="hidden md:flex items-center space-x-6">
         <a href="#about" className="text-gray-700 hover:text-primary">About</a>
         <a href="#faq" className="text-gray-700 hover:text-primary">FAQ</a>

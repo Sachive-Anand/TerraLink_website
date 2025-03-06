@@ -156,7 +156,7 @@ const Explore: React.FC = () => {
 
   // Handle login button click
   const handleLoginClick = () => {
-    navigate('/home');
+    navigate('/buyerlogin');
   };
 
   return (

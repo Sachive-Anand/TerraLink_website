@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const RecentApproaches: React.FC = () => {
   // Land details array
@@ -49,8 +50,27 @@ const RecentApproaches: React.FC = () => {
     },
   ];
 
+  // Navigation hook
+  const navigate = useNavigate();
+
+  // Handle back to seller landing page
+  const handleBack = () => {
+    navigate('/sellerlanding');
+  };
+
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-[#f7fafc] to-[#e2e8f0] p-6">
+      {/* Back Button */}
+      <motion.button
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        onClick={handleBack}
+        className="mb-4 px-4 py-2 bg-[#054a91] text-white rounded-xl hover:bg-[#04396c] transition duration-300"
+      >
+        Back
+      </motion.button>
+
       {/* Page Title */}
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
