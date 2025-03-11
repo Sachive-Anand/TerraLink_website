@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {FaSignOutAlt, FaFilter, FaTimes , FaSearch } from 'react-icons/fa';
+import logo from "../assets/logo3.png";
 
 const Explore: React.FC = () => {
   // Property interface
@@ -175,7 +176,7 @@ const Explore: React.FC = () => {
       {/* Navbar */}
       <div className="w-full h-[75px] flex items-center justify-between px-6 bg-white shadow-md">
         <div className="flex-grow flex justify-center md:justify-start">
-          <img src="https://placehold.co/100x50" alt="Logo" className="h-10" />
+          <img src={logo} alt="Logo" className="h-12 w-35 " />
         </div>
         <div className="flex items-center space-x-3">
           <Link to="/home">

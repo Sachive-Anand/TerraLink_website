@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaCompass } from "react-icons/fa";
-import logo from "../assets/logo2.jpg";
+import logo from "../assets/logo3.png";
 import anim from "../assets/animation.png"
 const Home:React.FC = () => {
   return (
@@ -10,7 +10,7 @@ const Home:React.FC = () => {
       <div className="w-full h-[75px] flex items-center justify-between px-6 bg-white shadow-md">
         {/* Logo */}
         <div className="flex-grow flex justify-center md:justify-start">
-          <img src={logo} alt="Logo" className="h-12" />
+          <img src={logo} alt="Logo" className="h-12 w-35" />
         </div>
 
         {/* Buttons */}

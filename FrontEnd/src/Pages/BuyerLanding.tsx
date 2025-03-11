@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaSignOutAlt } from 'react-icons/fa';
+import logo from "../assets/logo3.png";
 import { motion } from 'framer-motion';
+import { log } from 'console';
 
 const BuyerLanding: React.FC = () => {
   return (
@@ -11,9 +13,9 @@ const BuyerLanding: React.FC = () => {
         {/* Logo */}
         <div className="flex items-center">
           <img
-            src="https://placehold.co/150x50"
+            src={logo}
             alt="Logo"
-            className="h-10"
+            className="h-12 w-35"
           />
         </div>
 
