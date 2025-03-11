@@ -116,7 +116,7 @@ const SellerLandingPage: React.FC = () => {
           <Link to="/upload"><motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-blue-700 rounded-xl text-white px-8 py-4 text-lg font-semibold hover:bg-blue-900 transition"
+            className="bg-[#054a91] rounded-xl text-white px-8 py-4 text-lg font-semibold hover:bg-[#032b60] transition"
           >
             Start Listing Today
           </motion.button></Link>
