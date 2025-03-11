@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {FaSignOutAlt, FaFilter, FaTimes } from 'react-icons/fa';
+import {FaSignOutAlt, FaFilter, FaTimes , FaSearch } from 'react-icons/fa';
 
 const Explore: React.FC = () => {
   // Property interface
@@ -96,6 +96,8 @@ const Explore: React.FC = () => {
   const [citySearch, setCitySearch] = useState('');
   const [error, setError] = useState('');
 
+  const [searchQuery, setSearchQuery] = useState('');
+
   // State for login modal
   const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -133,6 +135,15 @@ const Explore: React.FC = () => {
 
   // Filter properties based on selected filters
   const filteredProperties = properties.filter((property) => {
+     // Filter by search query
+     if (
+      searchQuery &&
+      !property.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      !property.location.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      return false;
+    }
+
     // Filter by property type
     if (selectedType && property.type !== selectedType) return false;
 
@@ -176,19 +187,42 @@ const Explore: React.FC = () => {
         </div>
       </div>
 
-      {/* Explore Section */}
+            {/* Explore Section */}
       <div className="max-w-7xl mx-auto p-6">
         <div className="flex flex-col md:flex-row items-center justify-between bg-white p-6 shadow-md rounded-xl">
           <div className="text-center md:text-left mb-4 md:mb-0">
             <h1 className="text-2xl font-bold text-[#054a91]">Explore Lands</h1>
             <p className="text-gray-600">Find the perfect land for your needs. Use the filter to refine your search.</p>
           </div>
-          <button onClick={handleFilterClick} className="flex items-center space-x-2 px-5 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1">
-            <FaFilter className="text-lg" />
-            <span>Filter</span>
-          </button>
+          <div className="flex items-center space-x-4">
+            {/* Search Input and Button */}
+            <div className="flex items-center space-x-2 bg-white border border-gray-300 rounded-full px-4 py-2">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search properties..."
+                className="outline-none text-sm"
+              />
+              <button
+                onClick={() => setSearchQuery(searchQuery)}
+                className="text-[#054a91] hover:text-[#032b60]"
+              >
+                <FaSearch className="text-lg" />
+              </button>
+            </div>
+            {/* Filter Button */}
+            <button
+              onClick={handleFilterClick}
+              className="flex items-center space-x-2 px-5 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1"
+            >
+              <FaFilter className="text-lg" />
+              <span>Filter</span>
+            </button>
+          </div>
         </div>
       </div>
+
 
       {/* Property List Section */}
       <div className="max-w-7xl mx-auto p-6">

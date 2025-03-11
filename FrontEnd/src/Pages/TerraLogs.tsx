@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const TerraLogs: React.FC = () => {
   // Property interface
@@ -67,6 +68,17 @@ const TerraLogs: React.FC = () => {
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-[#f7fafc] to-[#e2e8f0] p-6">
+       {/* Back Button */}
+       <motion.button
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        onClick={() => navigate(-1)} // Go back to the previous page
+        className="fixed top-6 left-6 flex items-center space-x-2 px-4 py-2 bg-[#054a91] text-white rounded-full shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1 hover:scale-105"
+      >
+        <FaArrowLeft className="text-lg" />
+        <span className="hidden sm:inline">Back</span> {/* Hide text on small screens */}
+      </motion.button>
       {/* Page Title */}
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
