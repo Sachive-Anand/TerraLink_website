@@ -66,6 +66,11 @@ const TerraLogs: React.FC = () => {
     navigate('/property', { state: { property } });
   };
 
+  // Handle back to seller landing page
+  const handleBack = () => {
+    navigate('/sellerlanding');
+  };
+
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-[#f7fafc] to-[#e2e8f0] p-6">
        {/* Back Button */}
@@ -79,6 +84,7 @@ const TerraLogs: React.FC = () => {
         <FaArrowLeft className="text-lg" />
         <span className="hidden sm:inline">Back</span> {/* Hide text on small screens */}
       </motion.button>
+
       {/* Page Title */}
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
