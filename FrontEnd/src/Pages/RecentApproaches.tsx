@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import { FaArrowLeft } from 'react-icons/fa'; // Import the back arrow icon
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 
 const RecentApproaches: React.FC = () => {
