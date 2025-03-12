@@ -12,6 +12,7 @@ import TerraLogs from './Pages/TerraLogs';
 import UploadProperty from './Pages/UploadProperty';
 import Property from './Pages/Property';
 import Interested from './Pages/Interested';
+import Loading from './Components/Loading';
 function App() {
 
 
@@ -33,6 +34,8 @@ function App() {
         <Route path="/upload" element={<UploadProperty/>}/>
         <Route path="/property" element={<Property/>}/>
         <Route path="/interested" element={<Interested/>}/>
+        <Route path="/loading" element={<Loading/>}/>
+
       </Routes>
       </BrowserRouter>
     </div>
