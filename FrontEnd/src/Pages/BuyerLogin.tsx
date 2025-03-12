@@ -1,14 +1,79 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
 import backgroundVideo from "../assets/video.mp4";
 
-const BuyerLogin: React.FC = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
+// Define types for form data and error state
+interface FormData {
+  name: string;
+  mobileNumber: string;
+  email: string;
+  password: string;
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent default form submission
-    navigate("/buyerlanding"); // Navigate to the buyer landing page
+const BuyerLogin: React.FC = () => {
+  const [isSignUp, setIsSignUp] = useState<boolean>(false);
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    mobileNumber: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState<string>("");
+
+  // Handle input change and update form data
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submit based on Sign Up or Login
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Basic validation
+    if (isSignUp) {
+      if (!formData.name || !formData.mobileNumber || !formData.email || !formData.password) {
+        setError("All fields are required.");
+        return;
+      }
+
+      // Simulate a signup operation (replace with actual API call)
+      try {
+        const response = await fetch(`http://localhost:3000/buyer/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+        console.log(data);
+        // Handle successful sign-up (e.g., redirect or show success message)
+      } catch (error) {
+        setError("Error during sign-up: " + error);
+      }
+    } else {
+      if (!formData.email || !formData.password) {
+        setError("Email and password are required.");
+        return;
+      }
+
+      // Simulate a login operation (replace with actual API call)
+      try {
+        const response = await fetch(`http://localhost:3000/buyer/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: formData.email, password: formData.password }),
+        });
+
+        const data = await response.json();
+        console.log(data);
+        // Handle successful login (e.g., redirect or show success message)
+      } catch (error) {
+        setError("Error during login: " + error);
+      }
+    }
   };
 
   return (
@@ -62,6 +127,9 @@ const BuyerLogin: React.FC = () => {
             {isSignUp ? "Register with your email" : "Login with your credentials"}
           </p>
 
+          {/* Error Message */}
+          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
           {/* Google Sign-In */}
           <div className="flex justify-center mb-4">
             {isSignUp ? (
@@ -90,18 +158,37 @@ const BuyerLogin: React.FC = () => {
             {isSignUp && (
               <input
                 type="text"
-                placeholder="Business Name"
+                name="name"
+                placeholder="Name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-[#054a91]"
+              />
+            )}
+            {isSignUp && (
+              <input
+                type="text"
+                name="mobileNumber"
+                placeholder="Mobile Number"
+                value={formData.mobileNumber}
+                onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-[#054a91]"
               />
             )}
             <input
               type="email"
+              name="email"
               placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-[#054a91]"
             />
             <input
               type="password"
+              name="password"
               placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-[#054a91]"
             />
 
