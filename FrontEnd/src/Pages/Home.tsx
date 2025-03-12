@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaCompass } from "react-icons/fa";
-import logo from "../assets/logo3.png";
+import logo from "../assets/logo5.png";
 import anim from "../assets/animation.png"
 const Home:React.FC = () => {
   return (
