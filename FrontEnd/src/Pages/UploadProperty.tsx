@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { FaUpload, FaImage, FaMapMarkerAlt, FaDollarSign, FaHome, FaUser, FaAlignLeft } from "react-icons/fa";
-
+import { FaUpload, FaImage, FaMapMarkerAlt, FaDollarSign, FaHome, FaUser, FaAlignLeft, FaPhone, FaBuilding } from "react-icons/fa";
 
 const UploadProperty: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -13,12 +12,13 @@ const UploadProperty: React.FC = () => {
         amenities: [] as string[],
         negotiable: false,
         description: "",
+        phoneNumber: "",
+        propertyType: ""
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
     
-        // Handle checkboxes separately
         if (e.target instanceof HTMLInputElement && e.target.type === "checkbox") {
             const { checked } = e.target;
     
@@ -29,14 +29,12 @@ const UploadProperty: React.FC = () => {
                     : prev.amenities.filter((item: string) => item !== value)
             }));
         } else {
-            // Handle text input and text area
             setFormData((prev) => ({
                 ...prev,
                 [name]: value
             }));
         }
     };    
-    
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -57,7 +55,7 @@ const UploadProperty: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!formData.propertyName || !formData.ownerName || !formData.location || formData.images.length === 0 || !formData.Price || !formData.description) {
+        if (!formData.propertyName || !formData.ownerName || !formData.location || formData.images.length === 0 || !formData.Price || !formData.description || !formData.phoneNumber || !formData.propertyType) {
             alert("Please fill in all required fields.");
             return;
         }
@@ -72,6 +70,8 @@ const UploadProperty: React.FC = () => {
         formDataToSubmit.append('amenities', formData.amenities.join(',')); 
         formDataToSubmit.append("negotiable", String(formData.negotiable));
         formDataToSubmit.append("description", formData.description);
+        formDataToSubmit.append("phoneNumber", formData.phoneNumber);
+        formDataToSubmit.append("propertyType", formData.propertyType);
 
         try {
             const response = await fetch("/api/upload-property", {
@@ -91,6 +91,8 @@ const UploadProperty: React.FC = () => {
                     size: '',
                     negotiable: false,
                     description: "",
+                    phoneNumber: "",
+                    propertyType: ""
                 });
             } else {
                 alert("Failed to upload property. Please try again.");
@@ -102,7 +104,7 @@ const UploadProperty: React.FC = () => {
     };
 
     return (
-        <div className="bg-gradient-to-br from-blue-200 to-purple-300 min-h-screen flex items-center justify-center p-8">
+        <div className="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen flex items-center justify-center p-8">
             <div className="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-3xl transform transition duration-500 hover:scale-105">
                 <h1 className="text-4xl font-extrabold text-center text-blue-700 mb-6 flex items-center justify-center gap-3">
                     <FaUpload className="text-blue-500" /> Upload Property
@@ -119,6 +121,14 @@ const UploadProperty: React.FC = () => {
                     <div className="relative">
                         <FaMapMarkerAlt className="absolute left-3 top-4 text-gray-400" />
                         <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="Location" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                    </div>
+                    <div className="relative">
+                        <FaPhone className="absolute left-3 top-4 text-gray-400" />
+                        <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Phone Number" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                    </div>
+                    <div className="relative">
+                        <FaBuilding className="absolute left-3 top-4 text-gray-400" />
+                        <input type="text" name="propertyType" value={formData.propertyType} onChange={handleChange} placeholder="Type of Property" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                     </div>
                     <div className="relative bg-blue-50 p-4 border-dashed border-2 border-blue-400 rounded-lg">
                         <label className="block font-medium text-gray-700 flex items-center gap-3">
