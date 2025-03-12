@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FaHome, FaPhone, FaQuestionCircle } from 'react-icons/fa';
 import { Disclosure } from '@headlessui/react';
 import React from "react";
-import logo from "../assets/logo3.png";
+import logo from "../assets/logo5.png";
 import { FaHeart, FaSignOutAlt } from 'react-icons/fa';
 import {Link} from "react-router-dom";
 

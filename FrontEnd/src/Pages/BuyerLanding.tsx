@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaSignOutAlt } from 'react-icons/fa';
-import logo from "../assets/logo3.png";
+import logo from "../assets/logo5.png";
 import { motion } from 'framer-motion';
 import { log } from 'console';
 
@@ -26,6 +26,9 @@ const BuyerLanding: React.FC = () => {
             className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300"
           >
             Explore
+          </Link>
+          <Link to="/interested" className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300">
+             Interested
           </Link>
           <Link
             to="/favorites"
