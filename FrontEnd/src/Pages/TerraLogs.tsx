@@ -82,7 +82,7 @@ const TerraLogs: React.FC = () => {
         className="fixed top-6 left-6 flex items-center space-x-2 px-4 py-2 bg-[#054a91] text-white rounded-full shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1 hover:scale-105"
       >
         <FaArrowLeft className="text-lg" />
-        <span className="hidden sm:inline">Back</span> {/* Hide text on small screens */}
+        <span className="hidden sm:inline" onClick={handleBack}>Back</span> {/* Hide text on small screens */}
       </motion.button>
 
       {/* Page Title */}
