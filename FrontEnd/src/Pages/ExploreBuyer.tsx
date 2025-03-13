@@ -186,8 +186,8 @@ const ExploreBuyer: React.FC = () => {
   });
 
   // Handle view details button click
-  const handleViewDetails = (id: number) => {
-    navigate('/property', { state: { id } });
+  const handleViewDetails = (property: Property) => {
+    navigate('/property', { state: { property } });
   };
 
   return (
@@ -265,7 +265,7 @@ const ExploreBuyer: React.FC = () => {
                   <p className="text-gray-600">{property.size}</p>
                   <p className="text-gray-600">{property.amenities.join(', ')}</p>
                   <button
-                    onClick={() => handleViewDetails(property.id)}
+                    onClick={() => handleViewDetails(property)}
                     className="w-full mt-4 px-4 py-2 bg-[#054a91] text-white rounded hover:bg-[#032b60] transition duration-300"
                   >
                     View Details

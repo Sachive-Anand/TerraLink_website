@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 import backgroundVideo from "../assets/video.mp4";
+import { FaThumbsUp } from 'react-icons/fa'; // Import Thumbs-Up icon
+import { useNavigate } from "react-router-dom";
 
 // Define types for form data and error state
 interface FormData {
   name: string;
-  mobileNumber: string;
+  phone: string;
   email: string;
   password: string;
 }
 
 const BuyerLogin: React.FC = () => {
+  const navigate=useNavigate();
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
     name: "",
-    mobileNumber: "",
+    phone: "",
     email: "",
     password: "",
   });
   const [error, setError] = useState<string>("");
+  const [signupSuccess, setSignupSuccess] = useState<boolean>(false);
+  const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
 
   // Handle input change and update form data
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,51 +32,113 @@ const BuyerLogin: React.FC = () => {
   // Handle form submit based on Sign Up or Login
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Basic validation
+    setIsButtonClicked(true); // Set button clicked state to trigger feedback animation
+    setError(""); // Reset error message before validation
+  
     if (isSignUp) {
-      if (!formData.name || !formData.mobileNumber || !formData.email || !formData.password) {
+      // Existing sign-up logic...
+      if (!formData.name || !formData.phone || !formData.email || !formData.password) {
         setError("All fields are required.");
+        setIsButtonClicked(false); // Reset button clicked state on failure
         return;
       }
-
-      // Simulate a signup operation (replace with actual API call)
+  
+      const mobilePattern = /^[0-9]{10}$/;
+      if (!mobilePattern.test(formData.phone)) {
+        setError("Please enter a valid 10-digit mobile number.");
+        setIsButtonClicked(false); // Reset button clicked state on failure
+        return;
+      }
+  
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailPattern.test(formData.email)) {
+        setError("Please enter a valid email address.");
+        setIsButtonClicked(false); // Reset button clicked state on failure
+        return;
+      }
+  
+      if (formData.password.length < 6) {
+        setError("Password must be at least 6 characters long.");
+        setIsButtonClicked(false); // Reset button clicked state on failure
+        return;
+      }
+  
+      // Simulate signup operation
       try {
-        const response = await fetch(`http://localhost:3000/buyer/register`, {
+        const response = await fetch(`http://127.0.0.1:5000/buyer/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
         });
-
+  
         const data = await response.json();
-        console.log(data);
-        // Handle successful sign-up (e.g., redirect or show success message)
+        if (response.ok) {
+          setSignupSuccess(true); // Set success state
+          setIsButtonClicked(false); // Reset button clicked state on success
+          setFormData({
+            name: "",
+            phone: "",
+            email: "",
+            password: "",
+          }); // Clear form fields
+        } else {
+          setError(data.message || "Sign-up failed.");
+          setIsButtonClicked(false); // Reset button clicked state on failure
+        }
       } catch (error) {
         setError("Error during sign-up: " + error);
+        setIsButtonClicked(false); // Reset button clicked state on failure
       }
     } else {
-      if (!formData.email || !formData.password) {
-        setError("Email and password are required.");
-        return;
-      }
-
-      // Simulate a login operation (replace with actual API call)
+      // Handle login logic...
       try {
-        const response = await fetch(`http://localhost:3000/buyer/login`, {
+        // Step 1: Send POST request to Firebase to authenticate the user
+        const firebaseResponse = await fetch(
+          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAN-z-vgr8r5VEG5jNxKDsav7Kwv8wJWNc`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: formData.email,
+              password: formData.password,
+              returnSecureToken: true,
+            }),
+          }
+        );
+        const firebaseData = await firebaseResponse.json();
+  
+        if (!firebaseResponse.ok) {
+          setError(firebaseData.error.message || "Login failed.");
+          setIsButtonClicked(false);
+          return;
+        }
+  
+        // Step 2: Send idToken to your own /buyer/login endpoint
+        const idToken = firebaseData.idToken;
+        const loginResponse = await fetch(`http://127.0.0.1:5000/buyer/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: formData.email, password: formData.password }),
+          body: JSON.stringify({ idToken }),
         });
-
-        const data = await response.json();
-        console.log(data);
-        // Handle successful login (e.g., redirect or show success message)
+  
+        const loginData = await loginResponse.json();
+  
+        if (loginResponse.ok && loginData.message === "true") {
+          // Step 3: If login is successful, navigate to the ExploreBuyer component
+          navigate("/explore-buyer", { state: { user: loginData } });
+        } else {
+          setError(loginData.message || "Login failed.");
+        }
       } catch (error) {
         setError("Error during login: " + error);
+      } finally {
+        setIsButtonClicked(false);
       }
     }
   };
@@ -168,9 +235,9 @@ const BuyerLogin: React.FC = () => {
             {isSignUp && (
               <input
                 type="text"
-                name="mobileNumber"
+                name="phone"
                 placeholder="Mobile Number"
-                value={formData.mobileNumber}
+                value={formData.phone}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-[#054a91]"
               />
@@ -194,11 +261,20 @@ const BuyerLogin: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#054a91] text-white py-2 rounded-md hover:bg-blue-800 transition duration-300"
+              className={`w-full bg-[#054a91] text-white py-2 rounded-md hover:bg-blue-800 transition duration-300 ${
+                isButtonClicked ? "scale-95" : ""
+              }`}
             >
               {isSignUp ? "Register" : "Login"}
             </button>
           </form>
+
+          {signupSuccess && (
+            <div className="text-center mt-4">
+              <FaThumbsUp className="text-green-500 text-4xl animate-bounce" />
+              <p className="text-green-500">Sign-up Successful!</p>
+            </div>
+          )}
 
           {!isSignUp && (
             <p className="text-sm text-[#054a91] text-center mt-4 cursor-pointer hover:underline">
