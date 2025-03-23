@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { FaHeart, FaSignOutAlt } from 'react-icons/fa';
 import logo from "../assets/logo5.png";
 import { motion } from 'framer-motion';
-import { log } from 'console';
 
 const BuyerLanding: React.FC = () => {
   return (

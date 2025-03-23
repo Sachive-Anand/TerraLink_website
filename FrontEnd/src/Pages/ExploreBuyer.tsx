@@ -121,7 +121,8 @@ const ExploreBuyer: React.FC = () => {
   const [citySearch, setCitySearch] = useState('');
   const [error, setError] = useState('');
 
-   const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+
   // Navigation hook
   const navigate = useNavigate();
 
@@ -156,14 +157,15 @@ const ExploreBuyer: React.FC = () => {
 
   // Filter properties based on selected filters
   const filteredProperties = properties.filter((property) => {
-     // Filter by search query
-     if (
+    // Filter by search query
+    if (
       searchQuery &&
       !property.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
       !property.location.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       return false;
     }
+
     // Filter by property type
     if (selectedType && property.type !== selectedType) return false;
 
@@ -211,42 +213,41 @@ const ExploreBuyer: React.FC = () => {
         </div>
       </div>
 
-          {/* Explore Section */}
-           <div className="max-w-7xl mx-auto p-6">
-             <div className="flex flex-col md:flex-row items-center justify-between bg-white p-6 shadow-md rounded-xl">
-               <div className="text-center md:text-left mb-4 md:mb-0">
-                 <h1 className="text-2xl font-bold text-[#054a91]">Explore Lands</h1>
-                 <p className="text-gray-600">Find the perfect land for your needs. Use the filter to refine your search.</p>
-               </div>
-               <div className="flex items-center space-x-4">
-                 {/* Search Input and Button */}
-                 <div className="flex items-center space-x-2 bg-white border border-gray-300 rounded-full px-4 py-2">
-                   <input
-                     type="text"
-                     value={searchQuery}
-                     onChange={(e) => setSearchQuery(e.target.value)}
-                     placeholder="Search properties..."
-                     className="outline-none text-sm"
-                   />
-                   <button
-                     onClick={() => setSearchQuery(searchQuery)}
-                     className="text-[#054a91] hover:text-[#032b60]"
-                   >
-                     <FaSearch className="text-lg" />
-                   </button>
-                 </div>
-                 {/* Filter Button */}
-                 <button
-                   onClick={handleFilterClick}
-                   className="flex items-center space-x-2 px-5 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1"
-                 >
-                   <FaFilter className="text-lg" />
-                   <span>Filter</span>
-                 </button>
-               </div>
-             </div>
-           </div>
-     
+      {/* Explore Section */}
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="flex flex-col md:flex-row items-center justify-between bg-white p-6 shadow-md rounded-xl">
+          <div className="text-center md:text-left mb-4 md:mb-0">
+            <h1 className="text-2xl font-bold text-[#054a91]">Explore Lands</h1>
+            <p className="text-gray-600">Find the perfect land for your needs. Use the filter to refine your search.</p>
+          </div>
+          <div className="flex items-center space-x-4">
+            {/* Search Input and Button */}
+            <div className="flex items-center space-x-2 bg-white border border-gray-300 rounded-full px-4 py-2">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search properties..."
+                className="outline-none text-sm"
+              />
+              <button
+                onClick={() => setSearchQuery(searchQuery)}
+                className="text-[#054a91] hover:text-[#032b60]"
+              >
+                <FaSearch className="text-lg" />
+              </button>
+            </div>
+            {/* Filter Button */}
+            <button
+              onClick={handleFilterClick}
+              className="flex items-center space-x-2 px-5 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1"
+            >
+              <FaFilter className="text-lg" />
+              <span>Filter</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Property List Section */}
       <div className="max-w-7xl mx-auto p-6">
@@ -255,15 +256,15 @@ const ExploreBuyer: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProperties.map((property) => (
-              <div key={property.id} className="bg-white shadow-md rounded-lg overflow-hidden">
+              <div key={property.id} className="bg-white shadow-md rounded-lg overflow-hidden flex flex-col">
                 <img src={property.image} alt="Land" className="w-full h-48 object-cover" />
-                <div className="p-4">
-                  <h2 className="text-lg font-bold text-[#054a91]">{property.title}</h2>
-                  <p className="text-gray-600">{property.location}</p>
-                  <p className="text-gray-800 font-semibold">${property.price}</p>
-                  <p className="text-gray-600">{property.type}</p>
-                  <p className="text-gray-600">{property.size}</p>
-                  <p className="text-gray-600">{property.amenities.join(', ')}</p>
+                <div className="p-4 flex flex-col flex-grow">
+                  <h2 className="text-lg font-bold text-[#054a91] truncate">{property.title}</h2>
+                  <p className="text-gray-600 truncate">{property.location}</p>
+                  <p className="text-gray-800 font-semibold">₹{property.price}</p>
+                  <p className="text-gray-600 truncate">{property.type}</p>
+                  <p className="text-gray-600 truncate">{property.size}</p>
+                  <p className="text-gray-600 truncate">{property.amenities.join(', ')}</p>
                   <button
                     onClick={() => handleViewDetails(property)}
                     className="w-full mt-4 px-4 py-2 bg-[#054a91] text-white rounded hover:bg-[#032b60] transition duration-300"
@@ -297,6 +298,8 @@ const ExploreBuyer: React.FC = () => {
                 <option value="Commercial Land">Commercial Land</option>
                 <option value="Residential Land">Residential Land</option>
                 <option value="Recreational Land">Recreational Land</option>
+                <option value="Houses">Houses</option>
+                <option value="Rentals">Rentals</option>
               </select>
             </div>
 
@@ -322,32 +325,26 @@ const ExploreBuyer: React.FC = () => {
                 className="w-full"
               />
               <div className="flex justify-between text-sm">
-                <span>${selectedPriceRange[0]}</span>
-                <span>${selectedPriceRange[1]}</span>
+                <span>₹{selectedPriceRange[0]}</span>
+                <span>₹{selectedPriceRange[1]}</span>
               </div>
             </div>
 
             {/* Location */}
             <div className="mb-3">
               <label className="block text-sm font-medium text-gray-700">Location</label>
-              <input
-                type="text"
-                value={citySearch}
-                onChange={(e) => setCitySearch(e.target.value)}
+              <select
+                value={selectedLocation}
+                onChange={(e) => setSelectedLocation(e.target.value)}
                 className="w-full p-2 border rounded text-sm"
-                placeholder="Search city"
-              />
-              <div className="mt-2 max-h-40 overflow-y-auto border rounded text-sm">
-                {filteredCities.map((city, index) => (
-                  <div
-                    key={index}
-                    onClick={() => setSelectedLocation(city)}
-                    className={`p-2 cursor-pointer hover:bg-gray-100 ${selectedLocation === city ? 'bg-gray-200' : ''}`}
-                  >
+              >
+                <option value="">Select City</option>
+                {indianCities.map((city, index) => (
+                  <option key={index} value={city}>
                     {city}
-                  </div>
+                  </option>
                 ))}
-              </div>
+              </select>
             </div>
 
             {/* Size/Area */}

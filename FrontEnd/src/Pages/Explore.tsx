@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {FaSignOutAlt, FaFilter, FaTimes , FaSearch } from 'react-icons/fa';
+import { FaSignOutAlt, FaFilter, FaTimes, FaSearch } from 'react-icons/fa';
 import logo from "../assets/logo5.png";
 
 const Explore: React.FC = () => {
@@ -70,18 +70,28 @@ const Explore: React.FC = () => {
     },
   ];
 
-  // List of Indian cities
-  const indianCities = [
-    "Mumbai, Maharashtra",
-    "Bangalore, Karnataka",
-    "Hyderabad, Telangana",
-    "Delhi, Delhi",
-    "Chennai, Tamil Nadu",
-    "Pune, Maharashtra",
-    "Kolkata, West Bengal",
-    "Ahmedabad, Gujarat",
-    "Jaipur, Rajasthan",
-    "Lucknow, Uttar Pradesh",
+  // List of Tamil Nadu cities
+  const tamilNaduCities = [
+    "Chennai",
+    "Coimbatore",
+    "Madurai",
+    "Tiruchirappalli",
+    "Salem",
+    "Tirunelveli",
+    "Vellore",
+    "Erode",
+    "Thoothukudi",
+    "Dindigul",
+    "Thanjavur",
+    "Hosur",
+    "Nagercoil",
+    "Kanchipuram",
+    "Kumbakonam",
+    "Tiruppur",
+    "Cuddalore",
+    "Karur",
+    "Neyveli",
+    "Ooty",
   ];
 
   // Amenities list
@@ -94,7 +104,7 @@ const Explore: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
-  const [citySearch, setCitySearch] = useState('');
+  
   const [error, setError] = useState('');
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -129,15 +139,10 @@ const Explore: React.FC = () => {
     }
   };
 
-  // Filter cities based on search
-  const filteredCities = indianCities.filter((city) =>
-    city.toLowerCase().includes(citySearch.toLowerCase())
-  );
-
   // Filter properties based on selected filters
   const filteredProperties = properties.filter((property) => {
-     // Filter by search query
-     if (
+    // Filter by search query
+    if (
       searchQuery &&
       !property.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
       !property.location.toLowerCase().includes(searchQuery.toLowerCase())
@@ -188,7 +193,7 @@ const Explore: React.FC = () => {
         </div>
       </div>
 
-            {/* Explore Section */}
+      {/* Explore Section */}
       <div className="max-w-7xl mx-auto p-6">
         <div className="flex flex-col md:flex-row items-center justify-between bg-white p-6 shadow-md rounded-xl">
           <div className="text-center md:text-left mb-4 md:mb-0">
@@ -224,7 +229,6 @@ const Explore: React.FC = () => {
         </div>
       </div>
 
-
       {/* Property List Section */}
       <div className="max-w-7xl mx-auto p-6">
         {filteredProperties.length === 0 ? (
@@ -232,15 +236,15 @@ const Explore: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProperties.map((property) => (
-              <div key={property.id} className="bg-white shadow-md rounded-lg overflow-hidden">
+              <div key={property.id} className="bg-white shadow-md rounded-lg overflow-hidden flex flex-col">
                 <img src={property.image} alt="Land" className="w-full h-48 object-cover" />
-                <div className="p-4">
-                  <h2 className="text-lg font-bold text-[#054a91]">{property.title}</h2>
-                  <p className="text-gray-600">{property.location}</p>
-                  <p className="text-gray-800 font-semibold">${property.price}</p>
-                  <p className="text-gray-600">{property.type}</p>
-                  <p className="text-gray-600">{property.size}</p>
-                  <p className="text-gray-600">{property.amenities.join(', ')}</p>
+                <div className="p-4 flex flex-col flex-grow">
+                  <h2 className="text-lg font-bold text-[#054a91] truncate">{property.title}</h2>
+                  <p className="text-gray-600 truncate">{property.location}</p>
+                  <p className="text-gray-800 font-semibold">₹{property.price}</p>
+                  <p className="text-gray-600 truncate">{property.type}</p>
+                  <p className="text-gray-600 truncate">{property.size}</p>
+                  <p className="text-gray-600 truncate">{property.amenities.join(', ')}</p>
                   <button
                     onClick={() => setShowLoginModal(true)}
                     className="w-full mt-4 px-4 py-2 bg-[#054a91] text-white rounded hover:bg-[#032b60] transition duration-300"
@@ -274,6 +278,8 @@ const Explore: React.FC = () => {
                 <option value="Commercial Land">Commercial Land</option>
                 <option value="Residential Land">Residential Land</option>
                 <option value="Recreational Land">Recreational Land</option>
+                <option value="Houses">Houses</option>
+                <option value="Rentals">Rentals</option>
               </select>
             </div>
 
@@ -299,32 +305,26 @@ const Explore: React.FC = () => {
                 className="w-full"
               />
               <div className="flex justify-between text-sm">
-                <span>${selectedPriceRange[0]}</span>
-                <span>${selectedPriceRange[1]}</span>
+                <span>₹{selectedPriceRange[0]}</span>
+                <span>₹{selectedPriceRange[1]}</span>
               </div>
             </div>
 
             {/* Location */}
             <div className="mb-3">
               <label className="block text-sm font-medium text-gray-700">Location</label>
-              <input
-                type="text"
-                value={citySearch}
-                onChange={(e) => setCitySearch(e.target.value)}
+              <select
+                value={selectedLocation}
+                onChange={(e) => setSelectedLocation(e.target.value)}
                 className="w-full p-2 border rounded text-sm"
-                placeholder="Search city"
-              />
-              <div className="mt-2 max-h-40 overflow-y-auto border rounded text-sm">
-                {filteredCities.map((city, index) => (
-                  <div
-                    key={index}
-                    onClick={() => setSelectedLocation(city)}
-                    className={`p-2 cursor-pointer hover:bg-gray-100 ${selectedLocation === city ? 'bg-gray-200' : ''}`}
-                  >
+              >
+                <option value="">Select City</option>
+                {tamilNaduCities.map((city, index) => (
+                  <option key={index} value={city}>
                     {city}
-                  </div>
+                  </option>
                 ))}
-              </div>
+              </select>
             </div>
 
             {/* Size/Area */}
