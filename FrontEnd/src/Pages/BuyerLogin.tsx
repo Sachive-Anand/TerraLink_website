@@ -12,7 +12,7 @@ interface FormData {
 }
 
 const BuyerLogin: React.FC = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -23,6 +23,8 @@ const BuyerLogin: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [signupSuccess, setSignupSuccess] = useState<boolean>(false);
   const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
+  const [isTermsAccepted, setIsTermsAccepted] = useState<boolean>(false); // State for terms acceptance
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State for modal visibility
 
   // Handle input change and update form data
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,35 +36,42 @@ const BuyerLogin: React.FC = () => {
     e.preventDefault();
     setIsButtonClicked(true); // Set button clicked state to trigger feedback animation
     setError(""); // Reset error message before validation
-  
+
     if (isSignUp) {
+      // Check if terms and conditions are accepted
+      if (!isTermsAccepted) {
+        setError("You must accept the terms and conditions to proceed.");
+        setIsButtonClicked(false); // Reset button clicked state on failure
+        return;
+      }
+
       // Existing sign-up logic...
       if (!formData.name || !formData.phone || !formData.email || !formData.password) {
         setError("All fields are required.");
         setIsButtonClicked(false); // Reset button clicked state on failure
         return;
       }
-  
+
       const mobilePattern = /^[0-9]{10}$/;
       if (!mobilePattern.test(formData.phone)) {
         setError("Please enter a valid 10-digit mobile number.");
         setIsButtonClicked(false); // Reset button clicked state on failure
         return;
       }
-  
+
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!emailPattern.test(formData.email)) {
         setError("Please enter a valid email address.");
         setIsButtonClicked(false); // Reset button clicked state on failure
         return;
       }
-  
+
       if (formData.password.length < 6) {
         setError("Password must be at least 6 characters long.");
         setIsButtonClicked(false); // Reset button clicked state on failure
         return;
       }
-  
+
       // Simulate signup operation
       try {
         const response = await fetch(`http://127.0.0.1:5000/buyer/register`, {
@@ -72,7 +81,7 @@ const BuyerLogin: React.FC = () => {
           },
           body: JSON.stringify(formData),
         });
-  
+
         const data = await response.json();
         if (response.ok) {
           setSignupSuccess(true); // Set success state
@@ -96,7 +105,7 @@ const BuyerLogin: React.FC = () => {
       try {
         // Step 1: Send POST request to Firebase to authenticate the user
         const firebaseResponse = await fetch(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAN-z-vgr8r5VEG5jNxKDsav7Kwv8wJWNc`,
+          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=API_KEY`,
           {
             method: "POST",
             headers: {
@@ -110,13 +119,13 @@ const BuyerLogin: React.FC = () => {
           }
         );
         const firebaseData = await firebaseResponse.json();
-  
+
         if (!firebaseResponse.ok) {
           setError(firebaseData.error.message || "Login failed.");
           setIsButtonClicked(false);
           return;
         }
-  
+
         // Step 2: Send idToken to your own /buyer/login endpoint
         const idToken = firebaseData.idToken;
         const loginResponse = await fetch(`http://127.0.0.1:5000/buyer/login`, {
@@ -126,9 +135,9 @@ const BuyerLogin: React.FC = () => {
           },
           body: JSON.stringify({ idToken }),
         });
-  
+
         const loginData = await loginResponse.json();
-  
+
         if (loginResponse.ok && loginData.message === "true") {
           // Step 3: If login is successful, navigate to the ExploreBuyer component
           navigate("/explore-buyer", { state: { user: loginData } });
@@ -142,6 +151,30 @@ const BuyerLogin: React.FC = () => {
       }
     }
   };
+
+  // Terms and Conditions Modal
+  const TermsModal = () => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6 max-h-[80vh] overflow-y-auto">
+        <h2 className="text-xl font-bold mb-4 text-[#054a91]">Terms and Conditions</h2>
+        <p className="text-sm text-gray-600 mb-4">
+          This platform is designed exclusively for connecting buyers and sellers. We do not verify the authenticity of properties listed on this platform. Users are advised to exercise due diligence and caution before engaging in any transactions. By using this platform, you agree to the following:
+        </p>
+        <ul className="list-disc list-inside text-sm text-gray-600 mb-4">
+          <li>You are solely responsible for verifying the authenticity of properties and sellers.</li>
+          <li>We are not liable for any financial or legal disputes arising from transactions.</li>
+          <li>You must comply with all applicable laws and regulations.</li>
+          <li>Your use of this platform is at your own risk.</li>
+        </ul>
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="w-full bg-[#054a91] text-white py-2 rounded-md hover:bg-blue-800 transition duration-300"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <div className="relative flex items-center justify-center min-h-screen">
@@ -259,6 +292,29 @@ const BuyerLogin: React.FC = () => {
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-[#054a91]"
             />
 
+            {/* Terms and Conditions Checkbox */}
+            {isSignUp && (
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={isTermsAccepted}
+                  onChange={(e) => setIsTermsAccepted(e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-300 focus:ring-[#054a91]"
+                />
+                <label htmlFor="terms" className="text-sm text-gray-600">
+                  I agree to the{" "}
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(true)}
+                    className="text-[#054a91] hover:underline"
+                  >
+                    Terms and Conditions
+                  </button>
+                </label>
+              </div>
+            )}
+
             <button
               type="submit"
               className={`w-full bg-[#054a91] text-white py-2 rounded-md hover:bg-blue-800 transition duration-300 ${
@@ -283,6 +339,9 @@ const BuyerLogin: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Terms and Conditions Modal */}
+      {isModalOpen && <TermsModal />}
     </div>
   );
 };
