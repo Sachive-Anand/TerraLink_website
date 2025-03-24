@@ -20,7 +20,7 @@ import {
 
 const UploadProperty: React.FC = () => {
     const [formData, setFormData] = useState({
-        seller_id:1,
+        seller_id: 1,
         name: "",
         owner_name: "",
         location: "",
@@ -110,7 +110,7 @@ const UploadProperty: React.FC = () => {
             formData.images.length === 0 ||
             !formData.price_range ||
             !formData.description ||
-            !formData.contacts||
+            !formData.contacts ||
             !formData.type
         ) {
             alert("Please fill in all required fields.");
@@ -123,13 +123,19 @@ const UploadProperty: React.FC = () => {
             return;
         }
 
+        // Update the formData state with the uploaded image URLs
+        setFormData((prev) => ({
+            ...prev,
+            images: uploadedImageUrls as unknown as File[], // Temporarily cast to File[] to match the type
+        }));
+
         const propertyData = {
             ...formData,
-            images: uploadedImageUrls,
+            images: uploadedImageUrls, // Use the array of URLs for the backend
         };
 
         try {
-            const response = await fetch("/api/upload-property", {
+            const response = await fetch("http://127.0.0.1:5000/upload", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(propertyData),
@@ -138,7 +144,7 @@ const UploadProperty: React.FC = () => {
             if (response.ok) {
                 alert("Property uploaded successfully!");
                 setFormData({
-                    seller_id:1,
+                    seller_id: 1,
                     name: "",
                     owner_name: "",
                     location: "",
@@ -183,13 +189,13 @@ const UploadProperty: React.FC = () => {
                     {/* Property Name */}
                     <div className="relative">
                         <FaHome className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="propertyName" value={formData.name} onChange={handleChange} placeholder="Property Name" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Property Name" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                     </div>
 
                     {/* Owner Name */}
                     <div className="relative">
                         <FaHome className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="ownerName" value={formData.owner_name} onChange={handleChange} placeholder="Owner Name" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input type="text" name="owner_name" value={formData.owner_name} onChange={handleChange} placeholder="Owner Name" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                     </div>
 
                     {/* Location */}
@@ -201,7 +207,7 @@ const UploadProperty: React.FC = () => {
                     {/* Price */}
                     <div className="relative">
                         <FaMoneyBill className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="price" value={formData.price_range} onChange={handleChange} placeholder="Price" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input type="text" name="price_range" value={formData.price_range} onChange={handleChange} placeholder="Price" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                     </div>
 
                     {/* Size */}
@@ -213,13 +219,13 @@ const UploadProperty: React.FC = () => {
                     {/* Phone Number */}
                     <div className="relative">
                         <FaPhone className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="phoneNumber" value={formData.contacts} onChange={handleChange} placeholder="Phone Number" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input type="text" name="contacts" value={formData.contacts} onChange={handleChange} placeholder="Phone Number" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                     </div>
 
                     {/* Property Type */}
                     <div className="relative">
                         <FaHome className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="propertyType" value={formData.type} onChange={handleChange} placeholder="Property Type (e.g., Apartment, House)" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input type="text" name="type" value={formData.type} onChange={handleChange} placeholder="Property Type (e.g., Apartment, House)" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                     </div>
 
                     {/* Description */}
