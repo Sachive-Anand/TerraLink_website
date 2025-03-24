@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import backgroundVideo from "../assets/video.mp4";
 import { FaThumbsUp } from 'react-icons/fa'; // Import Thumbs-Up icon
 import { useNavigate } from "react-router-dom";
+import Loading from "../Components/Loading.tsx"; // Import the Loading component
 
 // Define types for form data and error state
 interface FormData {
@@ -342,6 +343,9 @@ const BuyerLogin: React.FC = () => {
 
       {/* Terms and Conditions Modal */}
       {isModalOpen && <TermsModal />}
+
+      {/* Loading Spinner */}
+      {isButtonClicked && <Loading />}
     </div>
   );
 };
