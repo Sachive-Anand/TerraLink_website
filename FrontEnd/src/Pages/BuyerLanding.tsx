@@ -11,11 +11,9 @@ const BuyerLanding: React.FC = () => {
       <nav className="w-full h-20 bg-white shadow-md flex items-center justify-between px-6 md:px-12">
         {/* Logo */}
         <div className="flex items-center">
-          <img
-            src={logo}
-            alt="Logo"
-            className="h-12 w-35"
-          />
+        <Link to="/home">
+      <img src={logo} alt="Logo" className="h-12 w-35 cursor-pointer" />
+    </Link>
         </div>
 
         {/* Buttons */}

@@ -10,7 +10,9 @@ const Home:React.FC = () => {
       <div className="w-full h-[75px] flex items-center justify-between px-6 bg-white shadow-md">
         {/* Logo */}
         <div className="flex-grow flex justify-center md:justify-start">
-          <img src={logo} alt="Logo" className="h-12 w-35" />
+        <Link to="/home">
+      <img src={logo} alt="Logo" className="h-12 w-35 cursor-pointer" />
+    </Link>
         </div>
 
         {/* Buttons */}
