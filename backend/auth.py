@@ -183,6 +183,7 @@ def explore():
             "name": property.name,
             "location": property.location,
             "price": property.price_range,
+            "images": property.images.split(',') if property.images else [],
             "size": property.size,
             "amenities": property.amenities.split(',') if property.amenities else []
         })
@@ -417,4 +418,3 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     app.run(debug=True)
-
