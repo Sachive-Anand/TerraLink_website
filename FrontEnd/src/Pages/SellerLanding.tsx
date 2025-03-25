@@ -32,7 +32,9 @@ const SellerLandingPage: React.FC = () => {
   <div className="max-w-7xl mx-auto px-4">
     <div className="flex justify-between h-16">
     <div className="ml-auto flex-grow flex md:justify-start">
-  <img src={logo} alt="Logo" className="h-11 mt-3" />
+    <Link to="/home">
+      <img src={logo} alt="Logo" className="h-12 w-35 cursor-pointer" />
+    </Link>
 </div>
 
       <div className="hidden md:flex items-center space-x-6">

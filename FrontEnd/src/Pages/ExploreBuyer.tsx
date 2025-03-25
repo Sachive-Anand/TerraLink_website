@@ -194,24 +194,26 @@ const ExploreBuyer: React.FC = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#E4E4E4]">
-      {/* Navbar */}
-      <div className="w-full h-[75px] flex items-center justify-between px-6 bg-white shadow-md">
-        <div className="flex-grow flex justify-center md:justify-start">
-          <img src={logo} alt="Logo" className="h-12 w-35" />
-        </div>
-        <div className="flex items-center space-x-3">
-          <Link to="/favorites" className="flex items-center space-x-2 px-5 py-2.5 border border-[#054a91] text-[#054a91] font-semibold rounded-full hover:bg-[#054a91] hover:text-white transition duration-300 transform hover:-translate-y-1 hover:scale-105">
-            <FaHeart className="text-lg" />
-            <span>Favourites</span>
-          </Link>
-          <Link to="/home">
-            <button className="flex items-center space-x-2 px-6 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1">
-              <FaSignOutAlt className="text-lg" />
-              <span>Log Out</span>
-            </button>
-          </Link>
-        </div>
-      </div>
+     {/* Navbar */}
+<div className="w-full h-[75px] flex items-center justify-between px-6 bg-white shadow-md">
+  <div className="flex-grow flex justify-center md:justify-start">
+    <Link to="/home">
+      <img src={logo} alt="Logo" className="h-12 w-35 cursor-pointer" />
+    </Link>
+  </div>
+  <div className="flex items-center space-x-3">
+    <Link to="/favorites" className="flex items-center space-x-2 px-5 py-2.5 border border-[#054a91] text-[#054a91] font-semibold rounded-full hover:bg-[#054a91] hover:text-white transition duration-300 transform hover:-translate-y-1 hover:scale-105">
+      <FaHeart className="text-lg" />
+      <span>Favourites</span>
+    </Link>
+    <Link to="/home">
+      <button className="flex items-center space-x-2 px-6 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1">
+        <FaSignOutAlt className="text-lg" />
+        <span>Log Out</span>
+      </button>
+    </Link>
+  </div>
+</div>
 
       {/* Explore Section */}
       <div className="max-w-7xl mx-auto p-6">
