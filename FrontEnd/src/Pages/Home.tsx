@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 import { FaCompass } from "react-icons/fa";
 import logo from "../assets/logo5.png";
 import anim from "../assets/animation.png"
-const Home:React.FC = () => {
+const Home: React.FC = () => {
   return (
     <div className="w-full min-h-screen bg-[#E4E4E4]">
       {/* Navigation Bar */}
       <div className="w-full h-[75px] flex items-center justify-between px-6 bg-white shadow-md">
         {/* Logo */}
         <div className="flex-grow flex justify-center md:justify-start">
-          <img src={logo} alt="Logo" className="h-12 w-35" />
+          {/* <img src={logo} alt="Logo" className="h-12 w-35" /> */}
+          <Link to="/home">
+            <img src={logo} alt="Logo" className="h-12 w-35 cursor-pointer" />
+          </Link>
         </div>
 
         {/* Buttons */}
@@ -59,8 +62,8 @@ const Home:React.FC = () => {
 
         {/* Animation Section */}
         <div className="w-full md:w-1/2 flex items-center justify-center order-last md:order-none">
-  <img src={anim} alt="Animation" className="w-full max-w-xs md:max-w-lg" />
-</div>
+          <img src={anim} alt="Animation" className="w-full max-w-xs md:max-w-lg" />
+        </div>
 
       </div>
     </div>

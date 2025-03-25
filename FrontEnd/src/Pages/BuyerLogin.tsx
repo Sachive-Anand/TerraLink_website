@@ -106,7 +106,7 @@ const BuyerLogin: React.FC = () => {
       try {
         // Step 1: Send POST request to Firebase to authenticate the user
         const firebaseResponse = await fetch(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=api_key`,
+          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAN-z-vgr8r5VEG5jNxKDsav7Kwv8wJWNc`,
           {
             method: "POST",
             headers: {

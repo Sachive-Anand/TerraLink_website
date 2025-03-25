@@ -1,100 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from "../assets/logo5.png";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaHeart, FaSignOutAlt, FaFilter, FaTimes, FaSearch } from 'react-icons/fa';
 
+interface Property {
+  id: number;
+  name: string;
+  location: string;
+  price: string;
+  images: string[];
+  size: string;
+  amenities: string[];
+}
+
 const ExploreBuyer: React.FC = () => {
-  // Property interface
-  interface Property {
-    id: number;
-    title: string;
-    location: string;
-    price: string;
-    image: string;
-    type: string;
-    size: string;
-    amenities: string[];
-    contacts: string;
-    ownerName: string;
-    negotiable: boolean;
-    description: string;
-  }
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  // Dummy data with additional fields
-  const properties: Property[] = [
-    {
-      id: 1,
-      title: "Serene Countryside Land",
-      location: "Mumbai, Maharashtra",
-      price: "150,000",
-      image: "https://placehold.co/300x200",
-      type: "Agricultural Land",
-      size: "10 acres",
-      amenities: ["Water", "Electricity"],
-      contacts: "+91 9876543210",
-      ownerName: "John Doe",
-      negotiable: true,
-      description: "A beautiful piece of agricultural land with fertile soil, perfect for farming.",
-    },
-    {
-      id: 2,
-      title: "Lakeside Residential Plot",
-      location: "Bangalore, Karnataka",
-      price: "200,000",
-      image: "https://placehold.co/300x200",
-      type: "Residential Land",
-      size: "5 acres",
-      amenities: ["Water", "Electricity", "Park"],
-      contacts: "+91 9876543211",
-      ownerName: "Jane Smith",
-      negotiable: false,
-      description: "A serene lakeside plot ideal for building your dream home.",
-    },
-    {
-      id: 3,
-      title: "Fertile Agricultural Land",
-      location: "Hyderabad, Telangana",
-      price: "95,000",
-      image: "https://placehold.co/300x200",
-      type: "Agricultural Land",
-      size: "20 acres",
-      amenities: ["Water"],
-      contacts: "+91 9876543212",
-      ownerName: "Ramesh Kumar",
-      negotiable: true,
-      description: "A large agricultural land with excellent irrigation facilities.",
-    },
-    {
-      id: 4,
-      title: "Commercial Land Near Highway",
-      location: "Delhi, Delhi",
-      price: "300,000",
-      image: "https://placehold.co/300x200",
-      type: "Commercial Land",
-      size: "2 acres",
-      amenities: ["Water", "Electricity", "Parking"],
-      contacts: "+91 9876543213",
-      ownerName: "Suresh Patel",
-      negotiable: false,
-      description: "Prime commercial land near the highway, perfect for business ventures.",
-    },
-    {
-      id: 5,
-      title: "Luxury Beachfront Plot",
-      location: "Chennai, Tamil Nadu",
-      price: "750,000",
-      image: "https://placehold.co/300x200",
-      type: "Residential Land",
-      size: "1 acre",
-      amenities: ["Water", "Electricity", "Pool"],
-      contacts: "+91 9876543214",
-      ownerName: "Priya Sharma",
-      negotiable: true,
-      description: "A luxurious beachfront plot with stunning ocean views.",
-    },
-  ];
+  // Filter states
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedPriceRange, setSelectedPriceRange] = useState([0, 1000000]);
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [citySearch, setCitySearch] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // List of Indian cities
+  // Get buyer_id from location state
+  const buyer_id = location.state?.user?.user_id;
+
+  // List of Indian cities and amenities for filters
   const indianCities = [
     "Mumbai, Maharashtra",
     "Bangalore, Karnataka",
@@ -108,30 +47,51 @@ const ExploreBuyer: React.FC = () => {
     "Lucknow, Uttar Pradesh",
   ];
 
-  // Amenities list
   const amenitiesList = ["Water", "Electricity", "Park", "Parking", "Pool", "Forest", "Gym", "Security"];
 
-  // State for filters
-  const [showFilterModal, setShowFilterModal] = useState(false);
-  const [selectedType, setSelectedType] = useState('');
-  const [selectedPriceRange, setSelectedPriceRange] = useState([0, 1000000]);
-  const [selectedLocation, setSelectedLocation] = useState('');
-  const [selectedSize, setSelectedSize] = useState('');
-  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
-  const [citySearch, setCitySearch] = useState('');
-  const [error, setError] = useState('');
+  // Fetch properties from API
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/explore');
 
-  const [searchQuery, setSearchQuery] = useState('');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-  // Navigation hook
-  const navigate = useNavigate();
+        const data = await response.json();
+
+        if (!data.properties || !Array.isArray(data.properties)) {
+          throw new Error('Expected properties array in response');
+        }
+
+        const formattedProperties = data.properties.map((property: any) => ({
+          id: property.id,
+          name: property.name,
+          location: property.location,
+          price: property.price,
+          images: property.images || [],
+          size: property.size,
+          amenities: property.amenities || []
+        }));
+
+        setProperties(formattedProperties);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, []);
 
   // Handle filter button click
   const handleFilterClick = () => {
     setShowFilterModal(true);
   };
 
-  // Handle okay button click
+  // Handle okay button click in filter modal
   const handleOkayClick = () => {
     if (selectedSize && isNaN(Number(selectedSize))) {
       setError('Size must be a number');
@@ -160,14 +120,11 @@ const ExploreBuyer: React.FC = () => {
     // Filter by search query
     if (
       searchQuery &&
-      !property.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      !property.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
       !property.location.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       return false;
     }
-
-    // Filter by property type
-    if (selectedType && property.type !== selectedType) return false;
 
     // Filter by price range
     const price = parseFloat(property.price.replace(/,/g, ''));
@@ -188,19 +145,76 @@ const ExploreBuyer: React.FC = () => {
   });
 
   // Handle view details button click
-  const handleViewDetails = (property: Property) => {
-    navigate('/property', { state: { property } });
+  const handleViewDetails = async (property: Property) => {
+    try {
+      // Fetch detailed property data
+      const response = await fetch(`http://127.0.0.1:5000/explore/${property.id}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const propertyData = await response.json();
+
+      // Navigate to property page with the fetched data
+      navigate('/property', {
+        state: {
+          buyer_id: buyer_id,
+          property_id: property.id,
+          property_data: propertyData
+        }
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch property details');
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center bg-[#E4E4E4]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#054a91] mx-auto"></div>
+          <p className="mt-4 text-[#054a91]">Loading properties...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center bg-[#E4E4E4]">
+        <div className="text-center p-6 bg-white rounded-lg shadow-md">
+          <h2 className="text-xl font-bold text-red-500 mb-4">Error Loading Properties</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-[#054a91] text-white rounded hover:bg-[#032b60]"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full min-h-screen bg-[#E4E4E4]">
       {/* Navbar */}
       <div className="w-full h-[75px] flex items-center justify-between px-6 bg-white shadow-md">
         <div className="flex-grow flex justify-center md:justify-start">
-          <img src={logo} alt="Logo" className="h-12 w-35" />
+          {/* <img src={logo} alt="Logo" className="h-12 w-35" /> */}
+          <Link to="/home">
+            <img src={logo} alt="Logo" className="h-12 w-35 cursor-pointer" />
+          </Link>
         </div>
         <div className="flex items-center space-x-3">
-          <Link to="/favorites" className="flex items-center space-x-2 px-5 py-2.5 border border-[#054a91] text-[#054a91] font-semibold rounded-full hover:bg-[#054a91] hover:text-white transition duration-300 transform hover:-translate-y-1 hover:scale-105">
+          <Link
+            to="/favorites"
+            state={{
+              buyer_id: buyer_id // Properly passing buyer_id to favorites page
+            }}
+            className="flex items-center space-x-2 px-5 py-2.5 border border-[#054a91] text-[#054a91] font-semibold rounded-full hover:bg-[#054a91] hover:text-white transition duration-300 transform hover:-translate-y-1 hover:scale-105"
+          >
             <FaHeart className="text-lg" />
             <span>Favourites</span>
           </Link>
@@ -230,10 +244,7 @@ const ExploreBuyer: React.FC = () => {
                 placeholder="Search properties..."
                 className="outline-none text-sm"
               />
-              <button
-                onClick={() => setSearchQuery(searchQuery)}
-                className="text-[#054a91] hover:text-[#032b60]"
-              >
+              <button className="text-[#054a91] hover:text-[#032b60]">
                 <FaSearch className="text-lg" />
               </button>
             </div>
@@ -252,19 +263,40 @@ const ExploreBuyer: React.FC = () => {
       {/* Property List Section */}
       <div className="max-w-7xl mx-auto p-6">
         {filteredProperties.length === 0 ? (
-          <p className="text-center text-gray-500">No properties match the selected filters.</p>
+          <div className="text-center bg-white p-6 rounded-lg shadow-md">
+            <p className="text-gray-500">No properties match the selected filters.</p>
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedType('');
+                setSelectedPriceRange([0, 100000000]);
+                setSelectedLocation('');
+                setSelectedSize('');
+                setSelectedAmenities([]);
+              }}
+              className="mt-4 px-4 py-2 bg-[#054a91] text-white rounded hover:bg-[#032b60]"
+            >
+              Clear Filters
+            </button>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProperties.map((property) => (
-              <div key={property.id} className="bg-white shadow-md rounded-lg overflow-hidden flex flex-col">
-                <img src={property.image} alt="Land" className="w-full h-48 object-cover" />
+              <div key={property.id} className="bg-white shadow-md rounded-2xl overflow-hidden flex flex-col">
+                {/* Display only the first image */}
+                <img
+                  src={property.images.length > 0 ? property.images[0] : "https://placehold.co/300x200"}
+                  alt={property.name}
+                  className="w-full h-48 object-cover"
+                />
                 <div className="p-4 flex flex-col flex-grow">
-                  <h2 className="text-lg font-bold text-[#054a91] truncate">{property.title}</h2>
+                  <h2 className="text-lg font-bold text-[#054a91] truncate">{property.name}</h2>
                   <p className="text-gray-600 truncate">{property.location}</p>
                   <p className="text-gray-800 font-semibold">₹{property.price}</p>
-                  <p className="text-gray-600 truncate">{property.type}</p>
                   <p className="text-gray-600 truncate">{property.size}</p>
-                  <p className="text-gray-600 truncate">{property.amenities.join(', ')}</p>
+                  {property.amenities.length > 0 && (
+                    <p className="text-gray-600 truncate">{property.amenities.join(', ')}</p>
+                  )}
                   <button
                     onClick={() => handleViewDetails(property)}
                     className="w-full mt-4 px-4 py-2 bg-[#054a91] text-white rounded hover:bg-[#032b60] transition duration-300"
@@ -309,7 +341,7 @@ const ExploreBuyer: React.FC = () => {
               <input
                 type="range"
                 min="0"
-                max="1000000"
+                max="100000000"
                 step="1000"
                 value={selectedPriceRange[0]}
                 onChange={(e) => setSelectedPriceRange([Number(e.target.value), selectedPriceRange[1]])}
@@ -318,7 +350,7 @@ const ExploreBuyer: React.FC = () => {
               <input
                 type="range"
                 min="0"
-                max="1000000"
+                max="100000000"
                 step="1000"
                 value={selectedPriceRange[1]}
                 onChange={(e) => setSelectedPriceRange([selectedPriceRange[0], Number(e.target.value)])}

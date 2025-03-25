@@ -5,7 +5,7 @@ import { Disclosure } from '@headlessui/react';
 import React from "react";
 import logo from "../assets/logo5.png";
 import { FaHeart, FaSignOutAlt } from 'react-icons/fa';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SellerLandingPage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,73 +29,76 @@ const SellerLandingPage: React.FC = () => {
     <div className="min-h-screen bg-white">
       {/* Navigation */}
       <nav className="bg-white shadow-lg fixed w-full z-10">
-  <div className="max-w-7xl mx-auto px-4">
-    <div className="flex justify-between h-16">
-    <div className="ml-auto flex-grow flex md:justify-start">
-  <img src={logo} alt="Logo" className="h-11 mt-3" />
-</div>
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between h-16">
+            <div className="ml-auto flex-grow flex md:justify-start">
+              {/* <img src={logo} alt="Logo" className="h-11 mt-3" /> */}
+              <Link to="/home">
+                <img src={logo} alt="Logo" className="h-12 w-35 cursor-pointer" />
+              </Link>
+            </div>
 
-      <div className="hidden md:flex items-center space-x-6">
-        <a href="#about" className="text-gray-700 hover:text-primary">About</a>
-        <a href="#faq" className="text-gray-700 hover:text-primary">FAQ</a>
-        <Link to="/upload">
-        <button className="w-full text-left px-3 py-2 bg-[#054a91] text-white rounded-xl hover:bg-blue-900 transition">
-          List Your Property
-        </button>
-      </Link>
-        {/* Add the new buttons here */}
-        <Link to="/recentapproaches"  className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300">
-          Recent Approaches
-        </Link>
-        <Link to="/terralogs"  className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300">
-          Terralogs
-        </Link>
-         <Link to="/home"
-                    className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300">
-                    <FaSignOutAlt className="inline-block mr-1" />
-                    Logout
-                  </Link>
-      </div>
-      <div className="md:hidden flex items-center">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="text-gray-700 hover:text-primary"
-        >
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-</nav>
+            <div className="hidden md:flex items-center space-x-6">
+              <a href="#about" className="text-gray-700 hover:text-primary">About</a>
+              <a href="#faq" className="text-gray-700 hover:text-primary">FAQ</a>
+              <Link to="/upload">
+                <button className="w-full text-left px-3 py-2 bg-[#054a91] text-white rounded-xl hover:bg-blue-900 transition">
+                  List Your Property
+                </button>
+              </Link>
+              {/* Add the new buttons here */}
+              <Link to="/recentapproaches" className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300">
+                Recent Approaches
+              </Link>
+              <Link to="/terralogs" className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300">
+                Terralogs
+              </Link>
+              <Link to="/home"
+                className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300">
+                <FaSignOutAlt className="inline-block mr-1" />
+                Logout
+              </Link>
+            </div>
+            <div className="md:hidden flex items-center">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="text-gray-700 hover:text-primary"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
 
       {/* Mobile Menu */}
       {isOpen && (
-  <div className="md:hidden fixed top-16 w-full bg-white shadow-lg z-10">
-    <div className="px-2 pt-2 pb-3 space-y-1">
-      <a href="#about" className="block px-3 py-2 text-gray-700 hover:text-primary">About</a>
-      <a href="#faq" className="block px-3 py-2 text-gray-700 hover:text-primary">FAQ</a>
-      <Link to="/upload">
-        <button className="w-full text-left px-3 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition">
-          List Your Property
-        </button>
-      </Link>
-      {/* Add the new buttons here for mobile */}
-      <button className="w-full text-left px-3 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition">
-        Recent Approaches
-      </button>
-      <button className="w-full text-left px-3 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition">
-        Terralogs
-      </button>
-    </div>
-  </div>
-)}
+        <div className="md:hidden fixed top-16 w-full bg-white shadow-lg z-10">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <a href="#about" className="block px-3 py-2 text-gray-700 hover:text-primary">About</a>
+            <a href="#faq" className="block px-3 py-2 text-gray-700 hover:text-primary">FAQ</a>
+            <Link to="/upload">
+              <button className="w-full text-left px-3 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition">
+                List Your Property
+              </button>
+            </Link>
+            {/* Add the new buttons here for mobile */}
+            <button className="w-full text-left px-3 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition">
+              Recent Approaches
+            </button>
+            <button className="w-full text-left px-3 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition">
+              Terralogs
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <motion.section
@@ -184,7 +187,7 @@ const SellerLandingPage: React.FC = () => {
       </footer>
     </div>
   );
-};  
+};
 
 export default SellerLandingPage;
 

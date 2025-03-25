@@ -197,9 +197,10 @@ def explore_property(id):
         return jsonify({"error": "Property not found"}), 404
     
     property_details = {
+        "name": property.name,
         "location": property.location,
         "address": property.address,
-        "type": property.name,
+        "type": property.property_type,
         "owner": property.owner_name,
         "negotiable": property.negotiable,
         "price": property.price_range,
@@ -248,14 +249,15 @@ def add_to_cart():
 def get_cart():
     data = request.json
     buyer_id = data.get('buyer_id')
-    
+
     if not buyer_id:
         return jsonify({"error": "Buyer ID is required"}), 400
-    
+
     cart_items = Cart.query.filter_by(buyer_id=buyer_id).all()
+
     if not cart_items:
         return jsonify({"message": "Cart is empty"}), 200
-    
+
     cart_list = []
     for cart_item in cart_items:
         property = cart_item.property
@@ -264,11 +266,12 @@ def get_cart():
             "name": property.name,
             "location": property.location,
             "price": property.price_range,
-            "size": property.area,
+            "size": property.size,               # Fixed from 'area' to 'size'
             "amenities": property.amenities.split(',') if property.amenities else []
         })
-    
+
     return jsonify({"cart": cart_list}), 200
+
 
 
 @app.route('/cart/<int:buyer_id>/<int:property_id>', methods=['DELETE'])
@@ -360,6 +363,22 @@ def get_interest():
     
     return jsonify({"interests": interest_list}), 200
 
+
+@app.route('/location', methods=['GET'])
+def get_locations():
+    try:
+        # Retrieve all unique locations from Property table
+        locations = db.session.query(Property.location).distinct().all()
+
+        # Extract the locations from the result and format them into a list
+        location_list = [location[0] for location in locations]
+
+        return jsonify({"locations": location_list}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 #---------------------------
 #      SELLERS PORTAL      #
 #---------------------------
@@ -413,6 +432,87 @@ def upload_property():
     db.session.commit()
 
     return jsonify({"message": "Property uploaded successfully"}), 201
+
+@app.route('/seller/explore/<int:seller_id>', methods=['GET'])
+def explore_seller_properties(seller_id):
+    # Fetch all properties by the given seller_id
+    properties = Property.query.filter_by(seller_id=seller_id).all()
+
+    if not properties:
+        return jsonify({"message": "No properties found for this seller"}), 200
+
+    property_list = []
+    for property in properties:
+        property_list.append({
+            "id": property.id,
+            "name": property.name,
+            "location": property.location,
+            "price": property.price_range,
+            "images": property.images,
+            "size": property.size,
+            "amenities": property.amenities.split(',') if property.amenities else []
+        })
+
+    return jsonify({"properties": property_list}), 200
+
+@app.route('/upload/update/<int:product_id>', methods=['PUT'])
+def update_property(product_id):
+    # Fetch the property by ID
+    property = Property.query.get(product_id)
+
+    if not property:
+        return jsonify({"error": "Property not found"}), 404
+
+    # Get the JSON data from the request
+    data = request.json
+
+    # Update property details
+    property.name = data.get('name', property.name)
+    property.owner_name = data.get('owner_name', property.owner_name)
+    property.location = data.get('location', property.location)
+    property.price_range = data.get('price', property.price_range)
+    property.size = data.get('size', property.size)
+    property.address = data.get('address', property.address)
+    property.contacts = data.get('contact', property.contacts)
+    property.property_type = data.get('property_type', property.property_type)
+    property.description = data.get('description', property.description)
+    property.negotiable = data.get('negotiability', property.negotiable)
+
+    amenities = data.get('amenities')
+    if amenities:
+        property.amenities = ','.join(amenities)
+
+    images = data.get('images')
+    if images and isinstance(images, list):
+        property.images = ','.join(images)
+
+    try:
+        db.session.commit()
+        return jsonify({"message": "Property updated successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/upload/delete/<int:product_id>', methods=['DELETE'])
+def delete_property(product_id):
+    # Fetch the property by ID
+    property = Property.query.get(product_id)
+
+    if not property:
+        return jsonify({"error": "Property not found"}), 404
+
+    try:
+        # Delete the property
+        db.session.delete(property)
+        db.session.commit()
+        
+        return jsonify({"message": "Property deleted successfully"}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     with app.app_context():

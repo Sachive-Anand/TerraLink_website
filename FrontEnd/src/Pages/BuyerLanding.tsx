@@ -1,43 +1,82 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaHeart, FaSignOutAlt } from 'react-icons/fa';
 import logo from "../assets/logo5.png";
 import { motion } from 'framer-motion';
 
 const BuyerLanding: React.FC = () => {
-  const loc=useLocation();
-  const propdata=loc.state?.loginData||{};
+  const location = useLocation();
+  const navigate = useNavigate();
+  const userData = location.state?.user;
+  const userName = userData?.Name;
+  const buyer_id = userData?.user_id;
+
+  // Function to handle navigation to favorites with buyer_id
+  const navigateToFavorites = () => {
+    navigate('/favorites', {
+      state: {
+        buyer_id: buyer_id,
+        user: userData
+      }
+    });
+  };
+
+  // Function to handle navigation to explore
+  const navigateToExplore = () => {
+    navigate('/exploreBuyer', {
+      state: {
+        user: userData
+      }
+    });
+  };
+
+  // Function to handle navigation to interested
+  const navigateToInterested = () => {
+    navigate('/interested', {
+      state: {
+        user: userData,
+        buyer_id: buyer_id
+      }
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f7fafc] to-[#e2e8f0]">
       {/* Navbar */}
       <nav className="w-full h-20 bg-white shadow-md flex items-center justify-between px-6 md:px-12">
         {/* Logo */}
         <div className="flex items-center">
-          <img
+          {/* <img
             src={logo}
             alt="Logo"
             className="h-12 w-35"
-          />
+          /> */}
+          <Link to="/home">
+            <img src={logo} alt="Logo" className="h-12 w-35 cursor-pointer" />
+          </Link>
         </div>
 
         {/* Buttons */}
         <div className="flex items-center space-x-4 md:space-x-6">
-          <Link
-            to="/exploreBuyer"
+          <button
+            onClick={navigateToExplore}
             className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300"
           >
             Explore
-          </Link>
-          <Link to="/interested" className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300">
-             Interested
-          </Link>
-          <Link
-            to="/favorites"
+          </button>
+          <button
+            onClick={navigateToInterested}
             className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300"
+          >
+            Interested
+          </button>
+          <button
+            onClick={navigateToFavorites}
+            className="flex items-center text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300"
           >
             <FaHeart className="inline-block mr-1" />
             Favorites
-          </Link>
+          </button>
           <Link
             to="/home"
             className="text-[#054a91] font-semibold hover:text-[#032b60] transition duration-300"
@@ -56,7 +95,7 @@ const BuyerLanding: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-4xl md:text-5xl font-bold text-[#054a91] mb-6"
         >
-          Welcome {propdata.name}
+          Welcome {userName}!
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 50 }}
@@ -72,18 +111,18 @@ const BuyerLanding: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="flex justify-center space-x-4"
         >
-          <Link
-            to="/exploreBuyer"
+          <button
+            onClick={navigateToExplore}
             className="px-6 py-3 bg-[#054a91] text-white font-semibold rounded-full hover:bg-[#032b60] transition duration-300 transform hover:scale-105"
           >
             Explore Properties
-          </Link>
-          <Link
-            to="/favorites"
+          </button>
+          <button
+            onClick={navigateToFavorites}
             className="px-6 py-3 border border-[#054a91] text-[#054a91] font-semibold rounded-full hover:bg-[#054a91] hover:text-white transition duration-300 transform hover:scale-105"
           >
             View Favorites
-          </Link>
+          </button>
         </motion.div>
       </div>
 
