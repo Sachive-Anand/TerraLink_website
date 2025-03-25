@@ -106,7 +106,7 @@ const BuyerLogin: React.FC = () => {
       try {
         // Step 1: Send POST request to Firebase to authenticate the user
         const firebaseResponse = await fetch(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=API_KEY`,
+          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=api_key`,
           {
             method: "POST",
             headers: {
@@ -141,7 +141,7 @@ const BuyerLogin: React.FC = () => {
 
         if (loginResponse.ok && loginData.message === "true") {
           // Step 3: If login is successful, navigate to the ExploreBuyer component
-          navigate("/explore-buyer", { state: { user: loginData } });
+          navigate("/buyerlanding", { state: { user: loginData } });
         } else {
           setError(loginData.message || "Login failed.");
         }

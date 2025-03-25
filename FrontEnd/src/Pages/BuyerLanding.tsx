@@ -1,10 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaHeart, FaSignOutAlt } from 'react-icons/fa';
 import logo from "../assets/logo5.png";
 import { motion } from 'framer-motion';
 
 const BuyerLanding: React.FC = () => {
+  const loc=useLocation();
+  const propdata=loc.state?.loginData||{};
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f7fafc] to-[#e2e8f0]">
       {/* Navbar */}
@@ -52,7 +54,7 @@ const BuyerLanding: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-4xl md:text-5xl font-bold text-[#054a91] mb-6"
         >
-          Welcome to the Buyer Portal
+          Welcome {propdata.name}
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 50 }}
