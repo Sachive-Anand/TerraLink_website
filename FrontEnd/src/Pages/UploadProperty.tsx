@@ -1,24 +1,16 @@
 import React, { useState } from "react";
-import axios from "axios";
-import {
-    FaUpload,
-    FaImage,
-    FaHome,
-    FaMoneyBill,
-    FaRuler,
-    FaPhone,
-    FaTree,
-    FaSwimmingPool,
-    FaDumbbell,
-    FaShieldAlt,
-    FaWifi,
-    FaTv,
-    FaUtensils,
-    FaSnowflake,
-    FaParking,
+import { 
+  FaUpload, FaImage, FaMapMarkerAlt, FaDollarSign, FaHome, 
+  FaUser, FaAlignLeft, FaPhone, FaBuilding, FaArrowLeft,
+  FaParking, FaTree, FaSwimmingPool, FaDumbbell, FaShieldAlt, 
+  FaWifi, FaTv, FaUtensils, FaSnowflake 
 } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/logo5.png";
+import axios from "axios";
 
 const UploadProperty: React.FC = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         seller_id: 1,
         name: "",
@@ -85,7 +77,6 @@ const UploadProperty: React.FC = () => {
                 );
                 const imageUrl = response.data.secure_url;
 
-                // Validate the URL
                 if (imageUrl.startsWith(`https://res.cloudinary.com/${cloudName}/`)) {
                     imageUrls.push(imageUrl);
                     console.log("Image uploaded successfully:", imageUrl);
@@ -123,15 +114,9 @@ const UploadProperty: React.FC = () => {
             return;
         }
 
-        // Update the formData state with the uploaded image URLs
-        setFormData((prev) => ({
-            ...prev,
-            images: uploadedImageUrls as unknown as File[], // Temporarily cast to File[] to match the type
-        }));
-
         const propertyData = {
             ...formData,
-            images: uploadedImageUrls, // Use the array of URLs for the backend
+            images: uploadedImageUrls,
         };
 
         try {
@@ -166,7 +151,6 @@ const UploadProperty: React.FC = () => {
         }
     };
 
-    // Amenities with icons
     const amenitiesList = [
         { name: "Parking", icon: <FaParking className="text-blue-500" /> },
         { name: "Garden", icon: <FaTree className="text-green-500" /> },
@@ -180,92 +164,189 @@ const UploadProperty: React.FC = () => {
     ];
 
     return (
-        <div className="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen flex items-center justify-center p-8">
-            <div className="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-3xl transform transition duration-500 hover:scale-105">
-                <h1 className="text-4xl font-extrabold text-center text-blue-700 mb-6 flex items-center justify-center gap-3">
-                    <FaUpload className="text-blue-500" /> Upload Property
-                </h1>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Property Name */}
-                    <div className="relative">
-                        <FaHome className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Property Name" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-                    </div>
+        <div className="w-full min-h-screen bg-[#E4E4E4]">
+            {/* Navbar */}
+            <div className="w-full h-[75px] flex items-center justify-between px-6 bg-white shadow-md">
+                <div className="flex-grow flex justify-center md:justify-start">
+                    <Link to="/home">
+                        <img src={logo} alt="Logo" className="h-12 w-35 cursor-pointer" />
+                    </Link>
+                </div>
+                <button 
+                    onClick={() => navigate(-1)} 
+                    className="flex items-center space-x-2 px-6 py-2 rounded-full bg-[#054a91] text-white shadow-md hover:bg-[#032b60] transition duration-300 transform hover:-translate-y-1"
+                >
+                    <FaArrowLeft className="text-lg" />
+                    <span>Back</span>
+                </button>
+            </div>
 
-                    {/* Owner Name */}
-                    <div className="relative">
-                        <FaHome className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="owner_name" value={formData.owner_name} onChange={handleChange} placeholder="Owner Name" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-                    </div>
-
-                    {/* Location */}
-                    <div className="relative">
-                        <FaHome className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="Location" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-                    </div>
-
-                    {/* Price */}
-                    <div className="relative">
-                        <FaMoneyBill className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="price_range" value={formData.price_range} onChange={handleChange} placeholder="Price" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-                    </div>
-
-                    {/* Size */}
-                    <div className="relative">
-                        <FaRuler className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="size" value={formData.size} onChange={handleChange} placeholder="Size (sq ft)" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-                    </div>
-
-                    {/* Phone Number */}
-                    <div className="relative">
-                        <FaPhone className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="contacts" value={formData.contacts} onChange={handleChange} placeholder="Phone Number" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-                    </div>
-
-                    {/* Property Type */}
-                    <div className="relative">
-                        <FaHome className="absolute left-3 top-4 text-gray-400" />
-                        <input type="text" name="type" value={formData.type} onChange={handleChange} placeholder="Property Type (e.g., Apartment, House)" required className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-                    </div>
-
-                    {/* Description */}
-                    <div className="relative">
-                        <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" required className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" rows={4} />
-                    </div>
-
-                    {/* Upload Images */}
-                    <div className="relative bg-blue-50 p-4 border-dashed border-2 border-blue-400 rounded-lg">
-                        <label className="block font-medium text-gray-700 flex items-center gap-3">
-                            <FaImage className="text-blue-500" /> Upload Images (Max 10)
-                        </label>
-                        <input type="file" name="images" accept="image/*" multiple onChange={handleFileChange} required className="w-full mt-2" />
-                    </div>
-
-                    {/* Amenities */}
-                    <div className="space-y-2">
-                        <label className="block font-medium text-gray-700">Amenities</label>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            {amenitiesList.map((amenity) => (
-                                <label key={amenity.name} className="flex items-center gap-2">
-                                    <input type="checkbox" name="amenities" value={amenity.name} onChange={handleAmenitiesChange} className="w-5 h-5" />
-                                    {amenity.icon}
-                                    <span className="text-gray-700">{amenity.name}</span>
-                                </label>
-                            ))}
+            {/* Upload Form */}
+            <div className="flex items-center justify-center p-8">
+                <div className="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-3xl">
+                    <h1 className="text-4xl font-extrabold text-center text-blue-700 mb-6 flex items-center justify-center gap-3">
+                        <FaUpload className="text-blue-500" /> Upload Property
+                    </h1>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="relative">
+                            <FaHome className="absolute left-3 top-4 text-gray-400" />
+                            <input 
+                                type="text" 
+                                name="name" 
+                                value={formData.name} 
+                                onChange={handleChange} 
+                                placeholder="Property Name" 
+                                required 
+                                className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                            />
                         </div>
-                    </div>
+                        
+                        <div className="relative">
+                            <FaUser className="absolute left-3 top-4 text-gray-400" />
+                            <input 
+                                type="text" 
+                                name="owner_name" 
+                                value={formData.owner_name} 
+                                onChange={handleChange} 
+                                placeholder="Owner's Name" 
+                                required 
+                                className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                            />
+                        </div>
+                        
+                        <div className="relative">
+                            <FaMapMarkerAlt className="absolute left-3 top-4 text-gray-400" />
+                            <input 
+                                type="text" 
+                                name="location" 
+                                value={formData.location} 
+                                onChange={handleChange} 
+                                placeholder="Location" 
+                                required 
+                                className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                            />
+                        </div>
+                        
+                        <div className="relative">
+                            <FaPhone className="absolute left-3 top-4 text-gray-400" />
+                            <input 
+                                type="text" 
+                                name="contacts" 
+                                value={formData.contacts} 
+                                onChange={handleChange} 
+                                placeholder="Phone Number" 
+                                required 
+                                className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                            />
+                        </div>
+                        
+                        <div className="relative">
+                            <FaBuilding className="absolute left-3 top-4 text-gray-400" />
+                            <input 
+                                type="text" 
+                                name="type" 
+                                value={formData.type} 
+                                onChange={handleChange} 
+                                placeholder="Type of Property" 
+                                required 
+                                className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                            />
+                        </div>
+                        
+                        <div className="relative bg-blue-50 p-4 border-dashed border-2 border-blue-400 rounded-lg">
+                            <label className="block font-medium text-gray-700 flex items-center gap-3">
+                                <FaImage className="text-blue-500" /> Upload Images
+                            </label>
+                            <input 
+                                type="file" 
+                                name="images" 
+                                accept="image/*" 
+                                multiple 
+                                onChange={handleFileChange} 
+                                required 
+                                className="w-full mt-2" 
+                            />
+                        </div>
+                        
+                        <div className="relative">
+                            <FaDollarSign className="absolute left-3 top-4 text-gray-400" />
+                            <input
+                                type="text"
+                                name="price_range"
+                                value={formData.price_range}
+                                onChange={handleChange}
+                                placeholder="Price Range"
+                                required
+                                className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            />
+                        </div>
 
-                    {/* Negotiable Checkbox */}
-                    <label className="flex items-center gap-2">
-                        <input type="checkbox" name="negotiable" checked={formData.negotiable} onChange={handleNegotiableChange} className="w-5 h-5" />
-                        <span className="text-gray-700">Negotiable Price</span>
-                    </label>
+                        <div>
+                            <input
+                                type="number"
+                                name="size"
+                                value={formData.size}
+                                onChange={handleChange}
+                                placeholder="Property Size (in sq. feet)"
+                                required
+                                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            />
+                        </div>
 
-                    {/* Submit Button */}
-                    <button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-purple-500 text-white font-semibold py-3 rounded-lg hover:from-blue-700 hover:to-purple-600 transition duration-300 shadow-lg transform hover:scale-105">
-                        Upload Property
-                    </button>
-                </form>
+                        <div>
+                            <label className="block font-medium text-gray-700">Amenities</label>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-3 rounded-lg">
+                                {amenitiesList.map((amenity) => (
+                                    <label key={amenity.name} className="flex items-center gap-3 cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            name="amenities"
+                                            value={amenity.name}
+                                            checked={formData.amenities.includes(amenity.name)}
+                                            onChange={handleAmenitiesChange}
+                                            className="w-5 h-5 text-blue-500 border-gray-300 rounded focus:ring-blue-400"
+                                        />
+                                        <span className="flex items-center gap-2">
+                                            {amenity.icon}
+                                            {amenity.name}
+                                        </span>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="relative">
+                            <FaAlignLeft className="absolute left-3 top-4 text-gray-400" />
+                            <textarea 
+                                name="description" 
+                                value={formData.description} 
+                                onChange={handleChange} 
+                                placeholder="Description" 
+                                required 
+                                rows={5} 
+                                className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            ></textarea>
+                        </div>
+
+                        <label className="flex items-center gap-2">
+                            <input 
+                                type="checkbox" 
+                                name="negotiable" 
+                                checked={formData.negotiable} 
+                                onChange={handleNegotiableChange} 
+                                className="w-5 h-5" 
+                            />
+                            <span className="text-gray-700">Negotiable Price</span>
+                        </label>
+
+                        <button 
+                            type="submit" 
+                            className="w-full bg-gradient-to-r from-blue-600 to-purple-500 text-white font-semibold py-3 rounded-lg hover:from-blue-700 hover:to-purple-600 transition duration-300 shadow-lg transform hover:scale-105"
+                        >
+                            Upload Property
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     );

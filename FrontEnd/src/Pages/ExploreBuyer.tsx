@@ -202,19 +202,10 @@ const ExploreBuyer: React.FC = () => {
       {/* Navbar */}
       <div className="w-full h-[75px] flex items-center justify-between px-6 bg-white shadow-md">
         <div className="flex-grow flex justify-center md:justify-start">
-          {/* <img src={logo} alt="Logo" className="h-12 w-35" /> */}
-          <Link to="/home">
-            <img src={logo} alt="Logo" className="h-12 w-35 cursor-pointer" />
-          </Link>
+          <img src={logo} alt="Logo" className="h-12 w-35" />
         </div>
         <div className="flex items-center space-x-3">
-          <Link
-            to="/favorites"
-            state={{
-              buyer_id: buyer_id // Properly passing buyer_id to favorites page
-            }}
-            className="flex items-center space-x-2 px-5 py-2.5 border border-[#054a91] text-[#054a91] font-semibold rounded-full hover:bg-[#054a91] hover:text-white transition duration-300 transform hover:-translate-y-1 hover:scale-105"
-          >
+          <Link to="/favorites" className="flex items-center space-x-2 px-5 py-2.5 border border-[#054a91] text-[#054a91] font-semibold rounded-full hover:bg-[#054a91] hover:text-white transition duration-300 transform hover:-translate-y-1 hover:scale-105">
             <FaHeart className="text-lg" />
             <span>Favourites</span>
           </Link>
